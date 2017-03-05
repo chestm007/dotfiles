@@ -1,0 +1,63 @@
+tasks:
+  Movies:
+    exists_movie: /mnt/raid/Movies/
+    imdb_lookup: yes
+    rss: https://thepiratebay.org/rss/top100/207
+    proper_movies: yes
+    regexp:
+      accept:
+        - '2017'
+        - '2016'
+        - '2015'
+        - '2014'
+        - 1080p
+        - BRRip
+        - DvdRip
+        - BluRay
+      reject:
+        - x265
+        - h265
+        - WebRip
+        - WEBRip
+        - 720p
+        - Hindi
+    template: deluge_settings
+
+  TvShows:
+    rss: https://thepiratebay.org/rss/top100/205
+    exists_series: /mnt/raid/TvShows/
+    series:
+      - The Big Bang Theory:
+          set:
+            movedone: "/mnt/raid/TvShows/Big Bang Theory/Season {{series_season}}/"
+      - Shooter:
+          set:
+            movedone: "/mnt/raid/TvShows/Shooter/Season {{series_season}}"
+      - Silicon Valley:
+          set:
+            movedone: "/mnt/raid/TvShows/SiliconValley/Season {{series_season}}/"
+      - Mr Robot:
+          set:
+            movedone: "/mnt/raid/TvShows/mr robot/Season{{series_season}}/"
+      - Game Of Thrones:
+          set:
+            movedone: "/mnt/raid/TvShows/Game of thrones/Season{{series_season}}/"
+      - Vikings:
+          set:
+            movedone: "/mnt/raid/TvShows/Vikings/Season{{series_season}}/"
+      - Heartland:
+          set:
+            movedone: "/mnt/raid/TvShows/Heartland/Season{{series_season}}/"
+    template: deluge_settings
+
+templates:
+  deluge_settings:
+    deluge:
+      username: localclient
+      password: 28f6379281b36c3bb1f32ce38ac15d952eafa3ac
+      path: /mnt/raid/cache/
+
+schedules:
+  - tasks: '*'
+    interval:
+      minutes: 30

@@ -8,9 +8,13 @@ SSH_ENV="$HOME/.ssh/environment"
 setopt inc_append_history
 setopt share_history
 zstyle :compinstall filename '/home/alex/.zshrc'
+zstyle ':completion*' menu select
+setopt COMPLETE_ALIASES
+autoload -U +X bashcompinit && bashcompinit
+autoload -U +X compinit && compinit
+autoload -Uz promptinit
 
-autoload -Uz compinit
-compinit
+EDITOR=vim
 
 eval `gnome-keyring-daemon --start`
 
@@ -21,11 +25,11 @@ export SSH_AGENT_PID="$(pgrep gnome-keyring)"
 export APP_REPO_DIR='/home/max/git/app'
 export ICADMIN_ROOT_DIR='/home/max/git/icadmin/icadmin'
 
-source /usr/share/zsh/site-contrib/powerline.zsh
 
 # Key Bindings
 #
-bindkey -e
+# Use vim in zsh OMG VIM!!! YAYAYAYAYAYAYAAAAAAa
+bindkey -v
 bindkey ';5D' emacs-backward-word
 bindkey ';5C' emacs-forward-word
 bindkey '^[[A' up-line-or-search                                                
@@ -34,6 +38,11 @@ bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}" end-of-line
 bindkey "\e[3~" delete-char
 
+# 
+# VIM-ZSH (see what i did there :O
+#
+export KEYTIMEOUT=1
+#
 # Start SSH Agent if not running
 
 #   Broken, needs work
@@ -82,6 +91,10 @@ alias jeu='journalctl -eu '
 alias ls='ls --color=auto'
 alias ll='ls -l'
 alias la='ll -a'
+alias python=/usr/bin/python2
+alias python3=/usr/bin/python3
+alias pip=/usr/bin/pip2
+alias pip3=/usr/bin/pip3
 
 # Functions
 #
@@ -90,7 +103,9 @@ function raf(){
     journalctl -fu $1;
 }
 
+source /usr/share/zsh/site-contrib/powerline.zsh
 # System Info
 #
+. ~/git/icadmin/autocomplete.sh
 pyalsi --logo Below -l
 systemctl --failed | grep ● --color

@@ -29,7 +29,8 @@ export ICADMIN_ROOT_DIR='/home/max/git/icadmin/icadmin'
 # Key Bindings
 #
 # Use vim in zsh OMG VIM!!! YAYAYAYAYAYAYAAAAAAa
-bindkey -v
+#bindkey -v
+
 bindkey ';5D' emacs-backward-word
 bindkey ';5C' emacs-forward-word
 bindkey '^[[A' up-line-or-search                                                
@@ -41,7 +42,7 @@ bindkey "\e[3~" delete-char
 # 
 # VIM-ZSH (see what i did there :O
 #
-export KEYTIMEOUT=1
+#export KEYTIMEOUT=1
 #
 # Start SSH Agent if not running
 

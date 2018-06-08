@@ -3,6 +3,7 @@
 # for examples
 
 # If not running interactively, don't do anything
+
 case $- in
     *i*) ;;
       *) return;;
@@ -119,3 +120,6 @@ fi
 alias jfu='journalctl -fu '
 alias jeu='journalctl -eu '
 
+
+# added by travis gem
+[ -f /home/max/.travis/travis.sh ] && source /home/max/.travis/travis.sh

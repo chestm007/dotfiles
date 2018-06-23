@@ -1,0 +1,116 @@
+#!/bin/sh
+
+pct_w="${PCT_W:-95}"   pct_h="${PCT_H:-70}"  # desired percent dimensions
+pad_w="${PAD_W:-8}"    pad_h="${PAD_H:-40}"   # pixels of extra padding
+chr_w="${CHR_W:-100}"  chr_h="${CHR_H:-35}"  # initial character dimensions
+
+comment() {
+  cat <<'END'
+usage: st-dropdown [gap] [position]
+Creates a floating st window. If the window already exists, toggles display.
+Allowed positions are center (default), top, bottom, left and right.
+The window size is determined by the env vars above and your screen size.
+The gap specifies how many pixels (default 0) go between the window and screen
+edges.
+To use it, you need lines like below in your i3 config:
+bindsym $mod+grave exec st-dropdown top
+for_window [instance="^ST dropdown$"] \
+  floating enable, sticky enable, move to scratchpad
+END
+}
+
+script="$(basename "$0")"
+title="$script"     # some applications can change the title
+name="ST dropdown"  # ensure the name is unique
+sec=0.1             # estimated time to start and register st
+
+if ! >/dev/null 2>&1 command -v st i3-msg jq; then
+  >&2 echo "$script requires st, i3-msg, and jq in \$PATH"
+  exit 1
+fi
+
+get_id_and_dims() {
+  # Store the X11 ID and dimensions of the current dropdown window,
+  # or error if it's not in the tree.
+  # shellcheck disable=2046
+  set -- $(i3-msg -t get_tree | jq --raw-output \
+    'first(.. | select(.window_properties?.instance == "'"$name"'")) |
+    .window, (.rect | .x, .y, .width, .height)')
+  [ -n "$1" ] || return 1
+
+  id="$1" old_x="$2" old_y="$3" old_width="$4" old_height="$5"
+}
+
+resize() {
+  # Get the dimensions of the output with the focused window and scale.
+  # shellcheck disable=2046
+  set -- $(i3-msg -t get_tree | jq --raw-output \
+    'first(.nodes[] | select(.. | .focused? ) | .rect?) |
+    .width, .height, .x, .y,
+    .width * '"$pct_w"' / 100 + '"$pad_w"',
+    .height * '"$pct_h"' / 100 + '"$pad_h")
+  # Proceed with resize only if dimensions are available.
+  [ -n "$1" ] && [ -n "$2" ] || return 1
+
+  # Resize requires ints, but jq cannot round, cast to int, or do printf.
+  read -r s_width s_height s_x s_y w_width w_height << READ
+    $(printf '%d %d %d %d %.0f %.0f' "$1" "$2" "$3" "$4" "$5" "$6")
+READ
+
+  # Proceed with resize only if dimensions are different.
+  [ "$w_width" = "$old_width" ] && [ "$w_height" = "$old_height" ] && return
+  i3-msg -q "[id=$id] resize set $w_width $w_height"
+}
+
+toggle() {
+  i3-msg -q "[id=$id] scratchpad show"
+}
+
+move() {
+  # Proceed with move only if position is computable.
+  [ -n "$s_width" ] && [ -n "$s_height" ] || return 1
+
+  # Assign gap to the first arg if it's an integer.
+  gap=0
+  if [ -z "${1//[0-9]/}" ]; then
+    gap=$1
+    shift
+  fi
+
+  case $1 in
+  center|'')
+    x=$(((s_width - w_width) / 2)) y=$(((s_height - w_height) / 2)) ;;
+  top)
+    x=$(((s_width - w_width) / 2)) y=$gap ;;
+  bottom)
+    x=$(((s_width - w_width) / 2)) y=$((s_height - w_height - gap)) ;;
+  left)
+    x=$gap y=$(((s_height - w_height) / 2)) ;;
+  right)
+    x=$((s_width - w_width - gap)) y=$(((s_height - w_height) / 2)) ;;
+  *)
+    >&2 echo "Invalid window position: $1"
+    exit 1
+  esac
+
+  x=$((x + s_x)) y=$((y + s_y))
+  # Proceed with move only if position is different.
+  [ "$old_x" -eq "$x" ] && [ "$old_y" -eq "$y" ] && return
+  i3-msg -q "[id=$id] move position $x $y"
+}
+
+get_id_and_dims || {
+  # If the window is not found, fork st and wait for i3 to register it.
+  st -n "$name" -t "$title" -ig "${chr_w}x${chr_h}" &
+  while true; do
+    sleep $sec
+    get_id_and_dims && break
+    # Back off with increasing timeout.
+    sec="$(jq --null-input $sec' * 2')"
+  done
+}
+
+# Window must be off the scratchpad for moving to work, so toggle first.
+resize
+toggle
+move "$@"

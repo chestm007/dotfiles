@@ -1,0 +1,14 @@
+#!/bin/bash
+cp ~/.aws/instaclustr-test_creds ~/.aws/credentials
+TECH_TEST_SERVER_NAME=$1
+INSTANCE=`aws --region us-west-1 ec2 run-instances --image-id ami-13b2c473 --instance-type t2.micro --key-name instaclustr-test-key | grep InstanceId | cut -d ":" -f 2 | cut -d '"' -f 2`;
+echo instance_id: $INSTANCE
+aws --region us-west-1 ec2 create-tags --tags Key=Name,Value="$TECH_TEST_SERVER_NAME Tech Test Server" --resources $INSTANCE;
+PUB_ADDRESS=`aws --region us-west-1 ec2 describe-instances --instance-ids $INSTANCE | grep PublicIpAddress | cut -d ':' -f 2 | cut -d '"' -f 2`;
+echo ip: $PUB_ADDRESS
+echo sleeping 60 seconds for server to start
+sleep 60
+eval $(ssh-agent)
+ssh-add ~/.ssh/instaclustr-test-key.pem
+ssh -i ~/.ssh/instaclustr-test-key.pem -p 2222 ubuntu@$PUB_ADDRESS bash -c 'ls; sudo apt-get update && sudo apt-get upgrade -y; sudo apt-get update && sudo apt-get upgrade -y; ps aux | grep hungryprogram.py ; free -m;  tail -n 30 /var/log/syslog | grep "Uh oh!"; history -c && history -w' 
+echo $TECH_TEST_SERVER_NAME - $PUB_ADDRESS

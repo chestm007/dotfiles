@@ -1,0 +1,4 @@
+#!/bin/bash
+
+/opt/BitDefender/bin/bd restart
+/opt/BitDefender/bin/bduitool update -ps 

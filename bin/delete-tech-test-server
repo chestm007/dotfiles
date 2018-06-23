@@ -1,0 +1,5 @@
+#!/bin/bash
+TECH_TEST_SERVER_NAME=$1
+INSTANCE_ID=`aws --region us-west-1 ec2 describe-instances --filters "Name=tag:Name,Values=$TECH_TEST_SERVER_NAME Tech Test Server" | grep InstanceId | cut -d '"' -f 4`
+echo instance ID: $INSTANCE_ID
+aws --region us-west-1 ec2 terminate-instances --instance-ids $INSTANCE_ID

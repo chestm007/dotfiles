@@ -1,0 +1,70 @@
+#!/bin/bash
+#
+# Script to connect to all jumpboxes.
+# automates google authenticator, and adding of all ssh keys
+#
+#eval $(ssh-agent) > /dev/null  # starts an ssh-agent for this session
+#/home/max/.ssh/add_keys 2>/dev/null  # adds all keys to the ssh-agent
+                                     # if more are needed, they should be
+                                     # added to this file, rather then
+                                     # explicitly listed here
+###########################################################################
+
+
+
+TOKEN=$(authenticator --key D4X6HFQ6VCTLXMGU | grep Token | cut -d " " -f 2)
+                                     # generates the current google auth
+                                     # token and sets it as an environment
+                                     # variable
+
+function help_func {
+    # help output
+    echo "Usage: $0 {-e|-w|-p)"
+    echo "       -e    jumpbox-east"
+    echo "       -o    admin1"
+    echo "       -t    admin2"
+    echo "       -od    admin1-dev"
+    echo "       -td    admin2-dev"
+    exit 1
+}
+function mfa_host {
+    expect -c "
+    log_user 0
+    spawn -noecho ssh "$TARGET"
+    expect "Verification"
+    send "$TOKEN\\r"
+    log_user 1
+    interact
+    "
+}
+
+function preprod {
+    ssh jumpbox-preprod
+}
+
+case $1 in
+    -o)
+        TARGET="admin1"
+        mfa_host
+        ;;
+    -t)
+        TARGET="admin2"
+        mfa_host
+        ;;
+    -e)
+        TARGET="jumpbox-east"
+        mfa_host
+        ;;
+    -od)
+        ssh admin1-dev
+        ;;
+    -td)
+        ssh admin2-dev
+        ;;
+    -p)
+        preprod
+        ;;
+    *)
+        help_func
+esac
+

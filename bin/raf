@@ -1,0 +1,3 @@
+#!/bin/bash
+systemctl restart $1
+journalctl -fu $1

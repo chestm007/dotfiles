@@ -1,0 +1,1 @@
+exec env WINEPREFIX="/home/max/win32" wine C:\\\\windows\\\\command\\\\start.exe /Unix /home/max/win32/dosdevices/c:/users/Public/Desktop/StarCraft.lnk

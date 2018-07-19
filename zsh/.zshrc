@@ -33,9 +33,9 @@ export KEYTIMEOUT=1
 # Key Bindings
 bindkey ';5D' emacs-backward-word
 bindkey ';5C' emacs-forward-word
-bindkey '^[[A' up-line-or-search                                                
-bindkey '^[[4' down-line-or-search
-bindkey "^[[H" beginning-of-line
+#bindkey '^[[A' up-line-or-search                                                
+#bindkey '^[[4' down-line-or-search
+#bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
 bindkey "\e[3~" delete-char
 
@@ -73,7 +73,7 @@ alias python=/usr/bin/python2
 alias python3=/usr/bin/python3
 alias pip=/usr/bin/pip2
 alias pip3=/usr/bin/pip3
-alias icadmin='icadmin --testing'
+alias icadmin='icadmin -c 127.0.0.1 -s 5400'
 alias extern="xrandr --output eDP1 --off --output DP2 --auto"
 alias intern="xrandr --output eDP1 --auto --output DP2 --off"
 alias vim=/bin/nvim
@@ -97,3 +97,8 @@ alias build_screeps="rm -r /home/max/.config/Screeps/scripts/192_168_1_2___21025
 
 # added by travis gem
 [ -f /home/max/.travis/travis.sh ] && source /home/max/.travis/travis.sh
+
+function icgo() {
+    HOST=$1 ssh nodes-a1 "${@:2}"
+}
+source ~/.profile

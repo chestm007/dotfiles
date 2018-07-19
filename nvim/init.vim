@@ -98,7 +98,7 @@
 
 " ---- LANGUAGE SPECIFIC
     " python shit
-    autocmd FileType python set cc=79
+    autocmd FileType python set cc=122
     autocmd FileType python set commentstring=#\ %s
     autocmd BufWritePre *.py :%s/\s\+$//e
 

@@ -19,8 +19,7 @@ TOKEN=$(authenticator --key D4X6HFQ6VCTLXMGU | grep Token | cut -d " " -f 2)
 
 function help_func {
     # help output
-    echo "Usage: $0 {-e|-w|-p)"
-    echo "       -e    jumpbox-east"
+    echo "Usage: $0 (-o|-t|-od|-td)"
     echo "       -o    admin1"
     echo "       -t    admin2"
     echo "       -od    admin1-dev"
@@ -51,18 +50,17 @@ case $1 in
         TARGET="admin2"
         mfa_host
         ;;
-    -e)
-        TARGET="jumpbox-east"
-        mfa_host
-        ;;
     -od)
         ssh admin1-dev
         ;;
     -td)
         ssh admin2-dev
         ;;
-    -p)
-        preprod
+    -oda)
+        ssh admin1-dev-admin
+        ;;
+    -tda)
+        ssh admin2-dev-admin
         ;;
     *)
         help_func

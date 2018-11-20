@@ -131,12 +131,29 @@ bindsym $mod+r mode "resize"
 #         font pango:Source Code Pro Regular, Icons 14
 # }
 
-# i3pystatusbar
+# Upper i3pystatusbar
 bar {
-    status_command    python ~/.config/i3/i3pystatus.conf
+    status_command    python3 ~/.config/i3/topi3pystatus.conf
+    position          top
+    workspace_buttons yes
+    font pango:Hack, Source Code Pro 12
+    colors {
+        background #253941
+        statusline #e7dfd9
+        separator  #081419
+        focused_workspace  #2aa198 #073642 #eee895
+        active_workspace   #073642 #859900 #839496
+        inactive_workspace #002b36  #002b36   #586e75
+        urgent_workspace   #cb4b16 #dc322f #fdf6e3
+    }
+  }
+
+# Lower i3pystatusbar
+bar {
+    status_command    python3 ~/.config/i3/bottomi3pystatus.conf
     position          bottom
     workspace_buttons yes
-    font pango:Hack, Source Code Pro 14
+    font pango:Hack, Source Code Pro 12
     colors {
         background #253941
         statusline #e7dfd9
@@ -154,14 +171,14 @@ exec xrandr -s 1920x1200
 exec xinput set-prop 'bcm5974' "Synaptics Scrolling Distance" -247, -247
 
 # set custom keybindings #
-bindsym XF86AudioRaiseVolume exec $psst pactl set-sink-volume @DEFAULT_SINK@ +5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update # volume up
-bindsym XF86AudioLowerVolume exec $psst pactl set-sink-volume @DEFAULT_SINK@ -5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update # volume down
-bindsym XF86AudioMute exec $psst pactl set-sink-mute @DEFAULT_SINK@ toggle $update # mute
+bindsym XF86AudioRaiseVolume exec --no-startup-id $psst pactl set-sink-volume @DEFAULT_SINK@ +5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update # volume up
+bindsym XF86AudioLowerVolume exec --no-startup-id $psst pactl set-sink-volume @DEFAULT_SINK@ -5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update # volume down
+bindsym XF86AudioMute exec --no-startup-id $psst pactl set-sink-mute @DEFAULT_SINK@ toggle $update # mute
 
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
-bindsym XF86KbdBrightnessDown exec xkbdbacklight down # decrease keyboard brightness
-bindsym XF86KbdBrightnessUp  exec xkbdbacklight up # increase keyboard brightness
+bindsym XF86MonBrightnessUp exec light -l -A 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec light -l -U 10 # decrease screen brightness
+bindsym XF86KbdBrightnessDown exec light -k -U 10 # decrease keyboard brightness
+bindsym XF86KbdBrightnessUp  exec light -k -A 10 # increase keyboard brightness
 
 bindsym XF86AudioPlay exec [ $(cmus-remote -Q | grep status | cut -d' ' -f2)x = playingx  ] && cmus-remote -u || cmus-remote -p # play/pause
 bindsym XF86AudioNext exec cmus-remote -n # next track
@@ -170,10 +187,10 @@ bindsym XF86AudioPrev exec cmus-remote -r # previous track
 bindsym $mod+shift+p exec --no-startup-id scrot 'screenshot.png' -e 'xclip -selection c -t image/png $f'
 
 # RICE RICE BABY
-gaps inner 15
-smart_borders no_gaps
-bindsym $mod+l exec --no-startup-id i3lock-wrapper
-exec --no-startup-id xautolock -time 10 -locker i3lock-wrapper
+# gaps inner 15
+# smart_borders no_gaps
+# bindsym $mod+l exec --no-startup-id i3lock-wrapper
+# exec --no-startup-id xautolock -time 10 -locker i3lock-wrapper
 
 # use compositor
 exec --no-startup-id compton -b -c
@@ -182,7 +199,7 @@ exec --no-startup-id compton -b -c
 new_window 1pixel
 
 # set wallpaper
-exec --no-startup-id feh --bg-fill Downloads/Image\ uploaded\ from\ iOS\ \(1\).jpg
+exec --no-startup-id feh --bg-fill "/home/max/.wallpaper.jpg"
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run -fn 'Source Code Pro Regular-14'

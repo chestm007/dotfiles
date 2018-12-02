@@ -6,7 +6,7 @@ LOGIN=${USER}
 # custom scripts path
 PATH="/home/max/.local/bin:$PATH"
 # ruby path
-PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+#PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 SSH_ENV="$HOME/.ssh/environment"
 setopt inc_append_history
 setopt share_history
@@ -86,7 +86,9 @@ function raf(){
     journalctl -fu $1;
 }
 
-. /usr/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+#. /usr/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+powerline-daemon -q
+. /usr/lib/python3.7/site-packages/powerline/bindings/zsh/powerline.zsh
 # System Info
 #
 pyalsi --logo Below -l -d Arch

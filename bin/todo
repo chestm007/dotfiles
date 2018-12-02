@@ -1,0 +1,3 @@
+#! /bin/bash
+/bin/st vim /home/max/werk/todo.md
+

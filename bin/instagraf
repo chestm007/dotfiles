@@ -1,0 +1,2 @@
+#!/bin/sh
+ssh -nTvL 3000:localhost:3000 citadel-tunnel1 instagraf &

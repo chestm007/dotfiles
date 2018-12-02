@@ -1,0 +1,31 @@
+#!/bin/bash
+INSTACLUSTR_ACCOUNT_ID=$1
+THIRD_PARTY_ARN=$2
+
+# Depending how you setup your AWS creds, the following might be helpful:
+#export AWS_ACCESS_KEY_ID=<citadel creds>
+#export AWS_SECRET_ACCESS_KEY=<citadel creds>
+
+# assume role in provisioning master
+AWS_CREDS=`aws sts assume-role --role-arn "arn:aws:iam::340652614357:role/InstaclustrProvisioning" --external-id "C6E1B9F8-E6D0-42AB-B53D-CFC18782E02C" --role-session-name "firstjump" --output text | grep CREDENTIALS`
+export AWS_ACCESS_KEY_ID=`echo $AWS_CREDS | cut -d$' ' -f 2 | grep -v 'arn'`
+export AWS_SECRET_ACCESS_KEY=`echo $AWS_CREDS | cut -d$' ' -f 4 | grep '\r'`
+export AWS_SESSION_TOKEN=`echo $AWS_CREDS | cut -d$' ' -f 5 | grep '\r'` 
+echo ProvisioningMaster credentials:
+echo
+echo $AWS_CREDS
+echo $AWS_ACCESS_KEY_ID
+echo $AWS_SECRET_ACCESS_KEY
+echo $AWS_SESSION_TOKEN
+
+#assume role in 3rd party account
+AWS_CREDS=`aws sts assume-role --role-arn "$THIRD_PARTY_ARN" --external-id "$INSTACLUSTR_ACCOUNT_ID" --role-session-name "secondjump" --output text | grep CREDENTIALS`
+export AWS_ACCESS_KEY_ID=`echo $AWS_CREDS | cut -d$' ' -f 2 | grep -v 'arn'`
+export AWS_SECRET_ACCESS_KEY=`echo $AWS_CREDS | cut -d$' ' -f 4 | grep '\r'`
+export AWS_SESSION_TOKEN=`echo $AWS_CREDS | cut -d$' ' -f 5 | grep '\r'`
+echo RIYOA ACCT credentials
+echo
+echo $AWS_CREDS
+echo $AWS_ACCESS_KEY_ID
+echo $AWS_SECRET_ACCESS_KEY
+echo $AWS_SESSION_TOKEN

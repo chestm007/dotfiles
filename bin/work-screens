@@ -1,0 +1,2 @@
+xrandr --output eDP1 --off --output DP1 --mode 2560x1440 --output DP2 --mode 2560x1440 --right-of DP1
+feh --bg-fill Downloads/Image\ uploaded\ from\ iOS\ \(1\).jpg

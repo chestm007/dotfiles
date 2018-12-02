@@ -1,0 +1,1 @@
+exec env WINEPREFIX="/home/max/.wine" /usr/bin/wine C:\\\\windows\\\\command\\\\start.exe steam://rungameid/217200

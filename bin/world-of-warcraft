@@ -1,0 +1,1 @@
+exec env WINEPREFIX="/home/max/.wine" /usr/bin/wine C:\\\\windows\\\\command\\\\start.exe /Unix /home/max/.wine/dosdevices/c:/users/Public/Desktop/World\\ of\\ Warcraft.lnk

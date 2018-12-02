@@ -1,0 +1,1 @@
+/home/max/git/configuration/dot.config/i3

@@ -1,0 +1,17 @@
+#/usr/bin/env bash
+set -e
+ext_mon=$(xrandr | grep -v eDP | grep "DP-" | grep " connected" | cut -f1 -d' ')
+current_space=$(i3-msg -t get_workspaces | jq '.[] | select(.focused==true) | .name')
+if [[ "x" == "x${ext_mon}" ]]; then
+    xrandr --output eDP-1 --auto --output "DP-1" --off --output "DP-2" --off
+    i3-msg -t get_workspaces | jq .[].name | grep -v 1: | while IFS= read -r ws; do
+        i3-msg workspace ${ws}, move workspace to output eDP-1 2&>1 > /dev/null;
+    done
+    i3-msg workspace $current_space
+else
+    xrandr --output eDP-1 --auto --output ${ext_mon} --auto --right-of eDP-1
+    i3-msg -t get_workspaces | jq .[].name | grep -v 1: | while IFS= read -r ws; do
+        i3-msg workspace ${ws}, move workspace to output $ext_mon;
+    done
+    i3-msg workspace $current_space
+fi

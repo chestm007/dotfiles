@@ -1,0 +1,1 @@
+exec env WINEPREFIX="/home/max/.wine" /usr/bin/wine C:\\\\windows\\\\command\\\\start.exe /Unix /home/max/.wine/dosdevices/c:/Program Files\ \(x86\)/Blizzard\ App/Battle.net.exe

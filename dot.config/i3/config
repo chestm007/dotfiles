@@ -59,22 +59,39 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
+# set monitors to vars
+set $mon_l DP-1
+set $mon_c DP-2
+set $mon_r HDMI-2
+
+workspace "1 vivaldi" output $mon_l
+workspace "2 chats" output $mon_c
+workspace 3 output $mon_l
+workspace 4 output $mon_l
+workspace "5 gaming" output $mon_l
+workspace "6 spotify" output $mon_r
+workspace 7 output $mon_c
+workspace "8 intellij" output $mon_r
+workspace "9 gitkraken" output $mon_c
+workspace "0 pycharm" output $mon_r
+
 # switch to workspace
 bindsym $mod+1 workspace number 1 vivaldi
 assign [class="Vivaldi-stable"] number 1
 bindsym $mod+2 workspace number 2 chats
 assign [class="Slack"] number 2
-assign [class="messengerfordesktop"] number 2
+assign [class="Messengerfordesktop"] number 2
 assign [class="discord"] number 2
 bindsym $mod+3 workspace number 3
 bindsym $mod+4 workspace 4
 bindsym $mod+5 workspace 5 gaming
 bindsym $mod+6 workspace 6 spotify
-assign [class="spotify"] number 6
+assign [class="Spotify"] number 6 spotify
+assign [class="spotify"] number 6 spotify
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace number 8 intellij
 bindsym $mod+9 workspace number 9 gitkraken
-assign [class="GitKraken"] number 9
+assign [class="GitKraken"] number 9 gitkraken
 bindsym $mod+0 workspace number 10 pycharm
 assign [class="jetbrains-pycharm-ce"] number 10
 

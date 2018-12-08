@@ -69,10 +69,6 @@ alias jeu='journalctl -eu '
 alias ls='ls --color=auto'
 alias ll='ls -l'
 alias la='ll -a'
-alias python=/usr/bin/python2
-alias python3=/usr/bin/python3
-alias pip=/usr/bin/pip2
-alias pip3=/usr/bin/pip3
 alias icadminv='icadmin -c 127.0.0.1 -s 5400'
 alias icadmin='icadmin --no-tunnel --testing'
 alias extern="xrandr --output eDP1 --off --output DP2 --auto"

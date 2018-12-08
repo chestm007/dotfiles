@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/srv/screeps'
+let g:netrw_dirhist_2='/srv/screeps/mods'
+let g:netrw_dirhist_3='/srv/screeps'
+let g:netrw_dirhist_4='/srv/screeps/mods'
+let g:netrw_dirhist_5='/srv/screeps/mods/screepsmod-tickrate'
+let g:netrw_dirhist_6='/srv/screeps/mods'
+let g:netrw_dirhist_7='/srv/screeps'
+let g:netrw_dirhist_8='/srv/screeps/example-mods'

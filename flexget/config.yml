@@ -2,7 +2,10 @@ tasks:
   Movies:
     exists_movie: /mnt/raid/Movies/
     imdb_lookup: yes
-    rss: https://thepiratebay.org/rss/top100/207
+    html:
+      url: https://thepiratebay.org/top/207
+      title_from: url
+      links_re: [ magnet ]
     proper_movies: yes
     regexp:
       accept:
@@ -21,10 +24,15 @@ tasks:
         - WEBRip
         - 720p
         - Hindi
-    template: deluge_settings
+    template: 
+      - deluge_settings
+      - piratebay_manipulate
 
   TvShows:
-    rss: https://thepiratebay.org/rss/top100/205
+    html:
+      url: https://thepiratebay.org/search/{{series_name}}/0/99/0
+      title_from: url
+      links_re: [ magnet ]
     exists_series: /mnt/raid/TvShows/
     series:
       - The Big Bang Theory:
@@ -48,14 +56,57 @@ tasks:
       - Heartland:
           set:
             movedone: "/mnt/raid/TvShows/Heartland/Season{{series_season}}/"
-    template: deluge_settings
+      - Wanted:
+          set:
+            movedone: "/mnt/raid/TvShows/Wanted/Season{{series_season}}/"
+      - This is us:
+          set:
+            movedone: "/mnt/raid/TvShows/ThisIsUs/Season{{series_season}}/"
+      - Breaking Bad:
+          set:
+            movedone: "/mnt/raid/TvShows/BreakingBad/Season{{series_season}}/"
+      - Archer:
+          set:
+            movedone: "/mnt/raid/TvShows/Archer/Season{{series_season}}/"
+      - Orphan Black:
+          set:
+            movedone: "/mnt/raid/TvShows/OrphanBlack/Season{{series_season}}/"
+      - Continuum:
+          set:
+            movedone: "/mnt/raid/TvShows/Continuum/Season{{series_season}}/"
+      - Narcos:
+          set:
+            movedone: "/mnt/raid/TvShows/Narcos/Season{{series_season}}/"
+      - House of Cards:
+          set:
+            movedone: "/mnt/raid/TvShows/HouseOfCards/Season{{series_season}}/"
+      - Stranger Things:
+          set:
+            movedone: "/mnt/raid/TvShows/StrangerThings/Season{{series_season}}/"
+      - Wire:
+          set:
+            html:
+              url: https://thepiratebay.org/search/{{series_name}}/0/99/0
+            movedone: "/mnt/raid/TvShows/Wire/Season{{series_season}}/"
+    template: 
+      - deluge_settings
+      - piratebay_manipulate
 
 templates:
   deluge_settings:
     deluge:
       username: localclient
-      password: 28f6379281b36c3bb1f32ce38ac15d952eafa3ac
-      path: /mnt/raid/cache/
+      password: b0a09b057e2a2251d78d9bd11344fd249b7277da
+      path: /mnt/raid/Movies/
+  piratebay_manipulate:
+    manipulate:
+      - title:
+          from: url
+          extract: '&dn=(.*?)&tr=udp'
+      - title:
+          replace:
+            regexp: '\+'
+            format: ' '
 
 schedules:
   - tasks: '*'

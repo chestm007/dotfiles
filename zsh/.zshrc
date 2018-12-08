@@ -35,8 +35,6 @@ bindkey ';5D' emacs-backward-word
 bindkey ';5C' emacs-forward-word
 bindkey '^[[A' up-line-or-search                                                
 bindkey '^[[B' down-line-or-search
-bindkey "${terminfo[khome]}" beginning-of-line
-bindkey "${terminfo[kend]}" end-of-line
 bindkey "\e[3~" delete-char
 
 # 
@@ -104,9 +102,34 @@ function raf(){
     journalctl -fu $1;
 }
 
-source /usr/share/zsh/site-contrib/powerline.zsh
+powerline-daemon -q                                                    
+. /usr/lib/python3.7/site-packages/powerline/bindings/zsh/powerline.zsh
+
 # System Info
 #
+if which ruby >/dev/null && which gem >/dev/null; then
+    PATH="$(ruby -rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+fi
+PATH="$HOME/.node_modules/bin:$PATH"
+export npm_config_prefix=~/.node_modules
 . ~/git/icadmin/autocomplete.sh
 pyalsi --logo Below -l
+source /usr/share/nvm/init-nvm.sh
 systemctl --failed | grep ● --color
+
+running-services
+
+checkpacman() {
+  sudo pacman -Sy > /dev/null
+  OLD_PACKAGES=`pacman -Qu | grep -v ignored | wc -l`
+  if [ "$OLD_PACKAGES" -ne "0" ]; then echo "$OLD_PACKAGES packages out of date"; fi
+}
+
+checkpacman
+
+checkBinariesUsingOldLibs() {
+  BINARIES=`lsof +c 0 | grep -w DEL | awk '1 { print $1 ": " $NF }' | sort -u`
+  if [ `echo "$BINARIES" | wc -l` -ne "0" ]; then echo "running out of date binaries \n $BINARIES";fi
+}
+
+checkBinariesUsingOldLibs

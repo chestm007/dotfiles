@@ -6,7 +6,7 @@ LOGIN=${USER}
 # custom scripts path
 PATH="/home/max/.local/bin:$PATH"
 # ruby path
-PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+#PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 SSH_ENV="$HOME/.ssh/environment"
 setopt inc_append_history
 setopt share_history

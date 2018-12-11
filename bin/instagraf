@@ -1,2 +1,7 @@
-#!/bin/sh
-ssh -nTvL 3000:localhost:3000 citadel-tunnel1 instagraf &
+#! /bin/bash
+eval $(ssh-agent)
+##. /home/max/.ssh/add_keys
+. /home/max/.ssh/add_keys
+#. /home/max/.ssh/add_instaclustr.sh
+ssh-add -l
+ssh -g -L 0.0.0.0:3001:localhost:3000 citadel-tunnel1 instagraf

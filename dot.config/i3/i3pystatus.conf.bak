@@ -1,0 +1,180 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+#
+import subprocess
+import requests
+
+from i3pystatus import Status, IntervalModule
+from i3pystatus.iinet import IINet
+from i3pystatus.updates import pacman, cower
+
+wifi_card = 'wlp4s0'
+
+status = Status()
+
+
+__author__ = 'chestm007'
+
+class PatchedIINet(IINet):
+    def get_usage(self):
+        response = requests.get('https://toolbox.iinet.net.au/cgi-bin/api.cgi?Usage&'
+                                '_TOKEN=%(token)s&'
+                                '_SERVICE=%(service_token)s' % self.__dict__).json()
+        if self.valid_response(response):
+            for traffic_type in response['response']['usage']['traffic_types']:
+                if traffic_type['name'] in ('anytime', 'usage'):
+                    return traffic_type
+        else:
+            raise Exception("Failed to retrieve usage information for: %s" % self.username)
+
+    def run(self):
+        self.set_tokens()
+
+        usage = self.get_usage()
+        allocation = usage['allocation']
+        used = usage['used']
+
+        percent_used = self.percentage(used, allocation)
+        percent_avaliable = self.percentage(allocation - used, allocation)
+        color = self.get_gradient(percent_used, self.colors)
+
+        usage['percent_used'] = '{0:.2f}%'.format(percent_used)
+        usage['percent_available'] = '{0:.2f}%'.format(percent_avaliable)
+        usage['used'] = '{0:.2f}'.format(used / 1000 ** 3)
+
+        self.data = usage
+        self.output = {
+            "full_text": self.format.format(**usage),
+            "color": color
+        }
+
+class Light(IntervalModule):
+    """
+    Get keyboard and screen backlight values from `light` binary.
+    Requires `light` (binary)
+
+    Formatters:
+
+    * `{screen_brightness}`        — screen brightness value
+    * `{keyboard_brightness}`   — keyboard brightness value
+    """
+    format = '{screen_brightness}/{keyboard_brightness}'
+    settings = ('format', )
+
+    def init(self):
+        self.screen_brightness = None
+        self.keyboard_brightness = None
+
+    def run(self):
+        def verify(val):
+            if val:
+                return val.strip().decode('UTF-8').split('.')[0]
+            return 'error'
+        self.screen_brightness = verify(subprocess.check_output("light"))
+
+        self.keyboard_brightness = verify(subprocess.check_output(['light', '-k']))
+        self.output = dict(full_text=self.format.format(**vars(self)))
+
+
+status.register(
+    "updates",
+    format="Updates: {count}",
+    format_no_updates="",
+    on_leftclick="termite --geometry=1200x600 --title=updates -e "
+                 "'pacaur --needed --noconfirm --noedit -Syu'",
+    backends=[pacman.Pacman(), cower.Cower()]
+)
+
+status.register(
+    "clock",
+    format="%d/%m  %H:%M",
+    color='#C678DD',
+    interval=1,
+    on_leftclick="/usr/bin/gsimplecal"
+)
+
+status.register(
+    "pulseaudio",
+    color_unmuted='#98C379',
+    color_muted='#E06C75',
+    format_muted='[muted]',
+    format="VOL {volume}%"
+)
+
+status.register(
+    "network",
+    interface=wifi_card,
+    color_up="#8AE234",
+    color_down="#EF2929",
+    format_up="{essid} {quality:.0f}%",
+    format_down="NO WIFI"
+)
+
+
+status.register(
+    "battery",
+    battery_ident="BAT1",
+    interval=5,
+    format="BAT(EX) {status} {percentage:.0f}% {remaining}",
+    alert_percentage=15,
+    color="#FFFFFF",
+    critical_color="#FF1919",
+    charging_color="#E5E500",
+    full_color="#D19A66",
+    status=dict(
+        DIS="D",
+        CHR="C",
+        FULL="F",
+    )
+)
+
+status.register(
+    "battery",
+    battery_ident="BAT0",
+    interval=5,
+    format="BAT(IN) {status} {percentage:.0f}% {remaining}",
+    alert_percentage=15,
+    color="#FFFFFF",
+    critical_color="#FF1919",
+    charging_color="#E5E500",
+    full_color="#D19A66",
+    status=dict(
+        DIS="D",
+        CHR="C",
+        FULL="F",
+    )
+)
+
+status.register(
+    "temp",
+    color='#78EAF2',
+)
+
+status.register(
+    "cpu_usage",
+    on_leftclick="termite --title=htop -e 'htop'",
+    format="CPU {usage}%"
+)
+
+status.register(
+    "disk",
+    color='#56B6C2',
+    path="/",
+    on_leftclick="pcmanfm",
+    format="/ {avail}GB"
+)
+
+status.register(
+    PatchedIINet,
+    username='max.chesterfield',
+    password='Jzey225pf',
+    format='vdsl2+ {used}GB'
+)
+
+status.register(
+    Light,
+    format='Backlight S{screen_brightness}%| K{keyboard_brightness}%',
+    interval=10
+)
+
+status.run()

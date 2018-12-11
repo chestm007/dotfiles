@@ -1,0 +1,79 @@
+#!/bin/bash
+#
+# Script to connect to all jumpboxes.
+# automates google authenticator, and adding of all ssh keys
+#
+#eval $(ssh-agent) > /dev/null  # starts an ssh-agent for this session
+#/home/max/.ssh/add_keys 2>/dev/null  # adds all keys to the ssh-agent
+                                     # if more are needed, they should be
+                                     # added to this file, rather then
+                                     # explicitly listed here
+###########################################################################
+source ~/.secrets/ic-admin-google-auth-token
+
+TOKEN=$(authenticator --key "$IC_ADMIN_GOOGLE_AUTH_TOKEN" | grep Token | cut -d " " -f 2)
+                                     # generates the current google auth
+                                     # token and sets it as an environment
+                                     # variable
+
+function help_func {
+    # help output
+    echo "Usage: $0 (-o|-t|-od|-td)"
+    echo "       -o    admin1"
+    echo "       -t    admin2"
+    echo "       -od    admin1-dev"
+    echo "       -td    admin2-dev"
+    exit 1
+}
+function mfa_host {
+    echo $EXTRA_VARS
+    echo $CMD
+    eval $(ssh-agent)
+    . /home/max/.ssh/add_keys
+    expect -c "
+    log_user 0
+    spawn -noecho ssh $EXTRA_VARS "$TARGET" $CMD
+    expect "Verification"
+    send "$TOKEN\\r"
+    log_user 1
+    interact
+    "
+}
+
+function preprod {
+    ssh jumpbox-preprod
+}
+
+case $2 in
+    -m)
+        EXTRA_VARS="-n -M -o ServerAliveInterval=60"
+        CMD="watch -n 10 echo alive"
+        ;;
+esac
+
+case $1 in
+    -o)
+        TARGET="admin1"
+        mfa_host
+        ;;
+    -t)
+        TARGET="admin2"
+        mfa_host
+        ;;
+    -od)
+        ssh admin1-dev
+        ;;
+    -td)
+        ssh admin2-dev
+        ;;
+    -oda)
+        ssh admin1-dev-admin
+        ;;
+    -tda)
+        ssh admin2-dev-admin
+        ;;
+    *)
+        help_func
+esac
+
+echo exiting

@@ -3,6 +3,7 @@ HISTSIZE=100000000000
 SAVEHIST=100000000000
 USERNAME="max"
 LOGIN=${USER}
+TERM=xterm-256color
 # custom scripts path
 PATH="/home/max/.local/bin:$PATH"
 # ruby path
@@ -20,11 +21,7 @@ bindkey -e
 
 EDITOR=nvim
 
-eval `gnome-keyring-daemon --start`
-
 # Exports
-export SSH_AUTH_SOCK="$(ls /run/user/$(id -u $USERNAME)/keyring*/ssh|head -1)"
-export SSH_AGENT_PID="$(pgrep gnome-keyring)"
 export APP_REPO_DIR='/home/max/git/app'
 export ICADMIN_ROOT_DIR='/home/max/git/icadmin/icadmin'
 export KEYTIMEOUT=1
@@ -35,32 +32,9 @@ bindkey ';5D' emacs-backward-word
 bindkey ';5C' emacs-forward-word
 bindkey '^[[A' up-line-or-search                                                
 bindkey '^[[B' down-line-or-search
-#bindkey "^[[H" beginning-of-line
+bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
 bindkey "\e[3~" delete-char
-
-function start_agent {
-    echo "Initialising new SSH agent..."
-    (umask 066; /usr/bin/ssh-agent > "${SSH_ENV}")
-    . "${SSH_ENV}" > /dev/null
-    # Add Keys
-    #
-    .ssh/add_id_rsa > /dev/null
-    .ssh/add_jb_rsa > /dev/null
-    .ssh/add_keys > /dev/null
-    .ssh/add_instaclustr.sh >> /dev/null
-}
-
-# Source SSH settings, if applicable
-if [ -f "${SSH_ENV}" ]; then
-    . "${SSH_ENV}" > /dev/null
-    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-        start_agent;
-    }
-else
-    start_agent;
-fi
-
 
 # Aliases
 #
@@ -82,7 +56,6 @@ function raf(){
     journalctl -fu $1;
 }
 
-#. /usr/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
 powerline-daemon -q
 . /usr/lib/python3.7/site-packages/powerline/bindings/zsh/powerline.zsh
 # System Info
@@ -97,7 +70,7 @@ alias build_screeps="rm -r /home/max/.config/Screeps/scripts/192_168_1_2___21025
 # added by travis gem
 [ -f /home/max/.travis/travis.sh ] && source /home/max/.travis/travis.sh
 
-function icgo() {
+function go() {
     HOST=$1 ssh nodes-a1 "${@:2}"
 }
 source ~/.profile

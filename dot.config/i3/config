@@ -77,7 +77,7 @@
     workspace 7 output $mon_c
     workspace "8 intellij" output $mon_r
     workspace "9 gitkraken" output $mon_c
-    workspace "0 pycharm" output $mon_r
+    workspace "10 pycharm" output $mon_r
 
     # switch to workspace
     bindsym $mod+1 workspace number 1 vivaldi
@@ -104,8 +104,8 @@
     bindsym $mod+Shift+1 move container to workspace number 1 vivaldi
     bindsym $mod+Shift+2 move container to workspace number 2 chats
     bindsym $mod+Shift+3 move container to workspace number 3
-    bindsym $mod+Shift+4 move container to workspace 4
-    bindsym $mod+Shift+5 move container to workspace 5 gaming
+    bindsym $mod+Shift+4 move container to workspace 4 irc
+    bindsym $mod+Shift+5 move container to workspace 5 email
     bindsym $mod+Shift+6 move container to workspace 6 spotify
     bindsym $mod+Shift+7 move container to workspace 7
     bindsym $mod+Shift+8 move container to workspace number 8 intellij
@@ -114,11 +114,13 @@
 
     exec --no-startup-id i3-msg 'workspace 1 vivaldi; vivaldi-stable;'
     exec --no-startup-id i3-msg 'workspace 2 chats; slack; messengerfordesktop;'
+
     exec --no-startup-id i3-msg 'workspace 4 irc; irssi-terminator;'
     exec --no-startup-id i3-msg 'workspace 5 email; neomutt-terminator;'
     exec --no-startup-id i3-msg 'workspace 6 spotify; spotify;'
+    
     exec --no-startup-id i3-msg 'workspace 9 gitkraken; gitkraken;' 
-    exec --no-startup-id i3-msg 'workspace 0 pycharm; pycharm-community;'
+    exec --no-startup-id i3-msg 'workspace 10 pycharm; pycharm-community;'
 
 # Status bars
 

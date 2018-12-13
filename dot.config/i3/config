@@ -81,11 +81,11 @@
 
     # switch to workspace
     bindsym $mod+1 workspace number 1 vivaldi
-    assign [class="Vivaldi-stable"] number 1
+    assign [class="Vivaldi-stable"] number 1 vivaldi
     bindsym $mod+2 workspace number 2 chats
-    assign [class="Slack"] number 2
-    assign [class="Caprine"] number 2
-    assign [class="discord"] number 2
+    assign [class="Slack"] number 2 chats
+    assign [class="Caprine"] number 2 chats
+    assign [class="discord"] number 2 chats
     bindsym $mod+3 workspace number 3
     bindsym $mod+4 workspace number 4 irc
     assign [window_role="irssi"] number 4 irc

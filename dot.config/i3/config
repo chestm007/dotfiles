@@ -64,6 +64,7 @@ bindsym $mod+1 workspace number 1 vivaldi
 assign [class="Vivaldi-stable"] number 1
 bindsym $mod+2 workspace number 2 chats
 assign [class="Slack"] number 2
+assign [class="Caprine"] number 2
 assign [class="discord"] number 2
 bindsym $mod+3 workspace number 3 music
 bindsym $mod+4 workspace 4
@@ -88,7 +89,7 @@ bindsym $mod+Shift+8 move container to workspace number 8 intellij
 bindsym $mod+Shift+9 move container to workspace number 9 gitkraken
 bindsym $mod+Shift+0 move container to workspace number 10 pycharm
 
-exec --no-startup-id i3-msg 'workspace 2 chats; slack; discord;  workspace 0 pycharm; pycharm-community; workspace 9 gitkraken; gitkraken'; 
+exec --no-startup-id i3-msg 'workspace 2 chats; slack; caprine;  workspace 0 pycharm; pycharm-community; workspace 9 gitkraken; gitkraken'; 
 
 # reload the configuration file
 bindsym $mod+Shift+c reload

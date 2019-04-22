@@ -102,6 +102,10 @@
     autocmd FileType python set commentstring=#\ %s
     autocmd BufWritePre *.py :%s/\s\+$//e
 
+    " yaml shit
+    au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml
+    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
 " ---- YOUCOMPLETEME
     " YouCompleteMe
     let g:ycm_seed_identifiers_with_syntax = 1

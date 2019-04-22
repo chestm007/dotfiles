@@ -1,0 +1,5 @@
+normal: '#cf5300'
+urgent: '#dddddd'
+success: '#005500'
+fail: '#550000'
+  

@@ -44,7 +44,7 @@ alias ls='ls --color=auto'
 alias ll='ls -l'
 alias la='ll -a'
 alias icadminv='icadmin -c 127.0.0.1 -s 5400'
-alias icadmin='icadmin --no-tunnel --testing'
+alias icadmin='icadmin --testing'
 alias extern="xrandr --output eDP1 --off --output DP2 --auto"
 alias intern="xrandr --output eDP1 --auto --output DP2 --off"
 alias vim=/bin/nvim

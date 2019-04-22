@@ -1,11 +1,29 @@
-# vim: foldmethod=indent
 # i3 config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
+# colors
+set $foo
+    # general
+    # class                 border  backgr. text    indicator   child_border
+    client.focused          #af3300 #af3300 #dddddd #000000     #af3300
+    client.focused_inactive #6f1100 #af3300 #dddddd #000000     #6f1100
+
+    # statusbar
+    set $status_background #111111
+    set $status_statusline #aaaa66
+    set $status_separator #aa66aa
+    #                              border  backgr. text
+    set $status_focused_workspace  #6f1100 #af3300 #dddddd
+    set $status_active_workspace   #6f1100 #4f1900 #ffffff
+    set $status_inactive_workspace #6f1100 #222222 #888888
+    set $status_urgent_workspace   #2f343a #900000 #ffffff
+    set $font pango:Source Code Pro 10
 
 # Bindings
-   
+set $foo
+    mouse_warping none
+
     set $mod Mod4
     bindsym $mod+Shift+c reload
     bindsym $mod+Shift+r restart
@@ -15,7 +33,8 @@
     bindsym $mod+h split h 
     bindsym $mod+v split v 
     bindsym $mod+f fullscreen toggle 
-    bindsym $mod+Shift+space floating toggle 
+    #bindsym $mod+Shift+space floating toggle 
+    bindsym $mod+Shift+space exec --no-startup-id /home/max/.local/bin/i3_ipc_hideshow_border; floating toggle
     bindsym $mod+space focus mode_toggle 
     bindsym $mod+a focus parent 
     
@@ -60,14 +79,15 @@
         bindsym Escape mode "default"
     }
 
-# look and feel
-    font pango:Source Code Pro Regular 14
+    # look and feel
+        font pango:Source Code Pro Regular 14
 
 # monitor and workspace layout
-    set $mon_l DP-1
-    set $mon_c DP-2
-    set $mon_r HDMI-2
-
+set $foo
+    set $mon_l DisplayPort-0
+    set $mon_c DisplayPort-1
+    set $mon_r HDMI-A-1
+    set $mon_tv HDMI-A-0
     workspace "1 vivaldi" output $mon_l
     workspace "2 chats" output $mon_c
     workspace 3 output $mon_l
@@ -79,14 +99,19 @@
     workspace "9 gitkraken" output $mon_c
     workspace "10 pycharm" output $mon_r
 
+    workspace 12 output $mon_tv
+    assign [class="plexmediaplayer"] workspace number 12 
+
     # switch to workspace
     bindsym $mod+1 workspace number 1 vivaldi
     assign [class="Vivaldi-stable"] number 1 vivaldi
     bindsym $mod+2 workspace number 2 chats
     assign [class="Slack"] number 2 chats
     assign [class="Caprine"] number 2 chats
+    assign [class="Messenger for Desktop"] number 2 chats
     assign [class="discord"] number 2 chats
     bindsym $mod+3 workspace number 3
+    assign [class="Steam"] number 3
     bindsym $mod+4 workspace number 4 irc
     assign [window_role="irssi"] number 4 irc
     bindsym $mod+5 workspace 5 email
@@ -112,110 +137,200 @@
     bindsym $mod+Shift+9 move container to workspace number 9 gitkraken
     bindsym $mod+Shift+0 move container to workspace number 10 pycharm
 
-    exec --no-startup-id i3-msg 'workspace 1 vivaldi; vivaldi-stable;'
-    exec --no-startup-id i3-msg 'workspace 2 chats; slack; caprine;'
-
     exec --no-startup-id i3-msg 'workspace 4 irc; irssi-terminator;'
     exec --no-startup-id i3-msg 'workspace 5 email; neomutt-terminator;'
-    exec --no-startup-id i3-msg 'workspace 6 spotify; spotify;'
-    
+    exec --no-startup-id i3-msg 'workspace 1 vivaldi; vivaldi-stable;'
+
     exec --no-startup-id i3-msg 'workspace 9 gitkraken; gitkraken;' 
+    exec --no-startup-id i3-msg 'workspace 2 chats; slack; caprine;'
+
+    #exec --no-startup-id i3-msg 'workspace 6 spotify; spotify;'
     exec --no-startup-id i3-msg 'workspace 10 pycharm; pycharm-community;'
 
+    #exec --no-startup-id i3-msg 'workspace 12; plexmediaplayer;'
+
+    exec --no-startup-id i3-msg 'workspace 2 chats;'
+
 # Status bars
+set $foo
 
     bar { 
-        status_command    python3 ~/.config/i3/topi3pystatus.conf
+        status_command    python3 ~/.config/i3/mon_l_topi3pystatus.conf
         position          top
+        output            $mon_l
         workspace_buttons no
-        font pango:Hack, Source Code Pro 10
+        tray_output none
+        font $font
         colors {
-            background #222222
-            statusline #eeeeee
-            separator #666666
+            background $status_background
+            statusline $status_statusline
+            separator $status_separator
             #                  border  backgr. text
-            focused_workspace  #4c7899 #285577 #ffffff
-            active_workspace   #333333 #5f676a #ffffff
-            inactive_workspace #333333 #222222 #888888
-            urgent_workspace   #2f343a #900000 #ffffff
+            focused_workspace  $status_focused_workspace
+            active_workspace   $status_active_workspace
+            inactive_workspace $status_inactive_workspace
+            urgent_workspace   $status_urgent_workspace
         }
     }
 
     bar { 
-        status_command    python3 ~/.config/i3/bottomi3pystatus.conf
+        status_command    python3 ~/.config/i3/mon_l_bottomi3pystatus.conf
         position          bottom
+        output            $mon_l
         workspace_buttons yes
-        font pango:Hack, Source Code Pro 10
+        tray_output none
+        font $font
         colors {
-            background #222222
-            statusline #eeeeee
-            separator #666666
+            background $status_background
+            statusline $status_statusline
+            separator $status_separator
             #                  border  backgr. text
-            focused_workspace  #4c7899 #285577 #ffffff
-            active_workspace   #333333 #5f676a #ffffff
-            inactive_workspace #333333 #222222 #888888
-            urgent_workspace   #2f343a #900000 #ffffff
+            focused_workspace  $status_focused_workspace
+            active_workspace   $status_active_workspace
+            inactive_workspace $status_inactive_workspace
+            urgent_workspace   $status_urgent_workspace
         }
     }
 
-# start user configs #
-exec setxkbmap -layout us -variant mac
-exec xrandr -s 1920x1200
-exec xinput set-prop 'bcm5974' "Synaptics Scrolling Distance" -247, -247
+    bar { 
+        status_command    python3 ~/.config/i3/mon_c_topi3pystatus.conf
+        position          top
+        output            $mon_c
+        workspace_buttons no
+        tray_output none
+        font $font
+        colors {
+            background $status_background
+            statusline $status_statusline
+            separator $status_separator
+            #                  border  backgr. text
+            focused_workspace  $status_focused_workspace
+            active_workspace   $status_active_workspace
+            inactive_workspace $status_inactive_workspace
+            urgent_workspace   $status_urgent_workspace
+        }
+    }
+
+    bar { 
+        status_command    python3 ~/.config/i3/mon_c_bottomi3pystatus.conf
+        position          bottom
+        output            $mon_c
+        workspace_buttons yes
+        tray_output $mon_c
+        font $font
+        colors {
+            background $status_background
+            statusline $status_statusline
+            separator $status_separator
+            #                  border  backgr. text
+            focused_workspace  $status_focused_workspace
+            active_workspace   $status_active_workspace
+            inactive_workspace $status_inactive_workspace
+            urgent_workspace   $status_urgent_workspace
+        }
+    }
+
+    bar { 
+        status_command    python3 ~/.config/i3/mon_r_topi3pystatus.conf
+        position          top
+        output            $mon_r
+        workspace_buttons no
+        tray_output none
+        font $font
+        colors {
+            background $status_background
+            statusline $status_statusline
+            separator $status_separator
+            #                  border  backgr. text
+            focused_workspace  $status_focused_workspace
+            active_workspace   $status_active_workspace
+            inactive_workspace $status_inactive_workspace
+            urgent_workspace   $status_urgent_workspace
+        }
+    }
+
+    bar { 
+        status_command    python3 ~/.config/i3/mon_r_bottomi3pystatus.conf
+        position          bottom
+        output            $mon_r
+        workspace_buttons yes
+        tray_output none
+        font $font
+        colors {
+            background $status_background
+            statusline $status_statusline
+            separator $status_separator
+            #                  border  backgr. text
+            focused_workspace  $status_focused_workspace
+            active_workspace   $status_active_workspace
+            inactive_workspace $status_inactive_workspace
+            urgent_workspace   $status_urgent_workspace
+        }
+    }
+
+    bar {
+        position bottom
+        output $mon_tv
+        workspace_buttons yes
+        tray_output none
+        font $font
+        }
 
 # set custom keybindings #
-bindsym XF86AudioRaiseVolume exec --no-startup-id $psst pactl set-sink-volume @DEFAULT_SINK@ +5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update # volume up
-bindsym XF86AudioLowerVolume exec --no-startup-id $psst pactl set-sink-volume @DEFAULT_SINK@ -5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update # volume down
-bindsym XF86AudioMute exec --no-startup-id $psst pactl set-sink-mute @DEFAULT_SINK@ toggle $update # mute
+set $foo
+    bindsym $mod+shift+p exec --no-startup-id scrot 'screenshot.png' -e 'xclip -selection c -t image/png $f'
+    bindsym XF86AudioRaiseVolume exec --no-startup-id $psst pactl set-sink-volume @DEFAULT_SINK@ +1% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update # volume up
+    bindsym XF86AudioLowerVolume exec --no-startup-id $psst pactl set-sink-volume @DEFAULT_SINK@ -1% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update # volume down
+    bindsym XF86AudioMute exec --no-startup-id $psst pactl set-sink-mute @DEFAULT_SINK@ toggle $update # mute
 
-bindsym XF86MonBrightnessUp exec light -l -A 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec light -l -U 10 # decrease screen brightness
-bindsym XF86KbdBrightnessDown exec light -k -U 10 # decrease keyboard brightness
-bindsym XF86KbdBrightnessUp  exec light -k -A 10 # increase keyboard brightness
+    bindsym XF86MonBrightnessUp exec light -l -A 10 # increase screen brightness
+    bindsym XF86MonBrightnessDown exec light -l -U 10 # decrease screen brightness
+    bindsym XF86KbdBrightnessDown exec light -k -U 10 # decrease keyboard brightness
+    bindsym XF86KbdBrightnessUp  exec light -k -A 10 # increase keyboard brightness
 
-bindsym XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
-bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
-bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
-bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+    #bindsym XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+    #bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+    #bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+    #bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+    bindsym XF86AudioPlay exec playerctl play
+	bindsym XF86AudioPause exec playerctl pause
+	bindsym XF86AudioNext exec playerctl next
+	bindsym XF86AudioPrev exec playerctl previous
 
-bindsym $mod+shift+p exec --no-startup-id scrot 'screenshot.png' -e 'xclip -selection c -t image/png $f'
 
 # RICE RICE BABY
-gaps inner 15
-smart_borders no_gaps
-bindsym $mod+l exec --no-startup-id i3lock-wrapper
-# exec --no-startup-id xautolock -time 10 -locker i3lock-wrapper
+set $foo
+    gaps inner 15
+    smart_borders no_gaps
+    # exec --no-startup-id xautolock -time 10 -locker i3lock-wrapper
+    bindsym $mod+l exec --no-startup-id i3lock-wrapper
 
-# use compositor
-exec --no-startup-id compton -b -c
+    # use compositor
+    exec --no-startup-id compton -b -c
 
-# hide title bars
-new_window 1pixel
+    # hide title bars
+    new_window 1pixel
 
 # set wallpaper
-exec --no-startup-id feh --bg-fill "/home/max/.wallpaper.jpg"
+exec --no-startup-id feh --bg-max "/home/max/.wallpaper.jpg"
 
-# start dmenu (a program launcher)
-# bindsym $mod+d exec dmenu_run -fn 'Source Code Pro Regular-14'
-#
 # dmenu replacement (rofi)
-bindsym $mod+Return exec "rofi -show run -modi run -location 1 -width 100 -lines 2 -line-margin 0 -line-padding 1 -separator-style none -font 'mono 10' -columns 9 -bw 0 -disable-history -hide-scrollbar -color-window '#222222, #222222, #b1b4b3' -color-normal '#222222, #b1b4b3, #222222, #005577, #b1b4b3' -color-active '#222222, #b1b4b3, #222222, #007763, #b1b4b3' -color-urgent '#222222, #b1b4b3, #222222, #77003d, #b1b4b3' -kb-row-select 'Tab' -kb-row-tab ''"
+bindsym $mod+Return exec "rofi -show run -modi run -location 1 -width 100 -lines 4 -line-margin 0 -line-padding 1 -separator-style none -font 'Source Code Pro 10' -columns 9 -bw 0 -disable-history -hide-scrollbar -color-window '#222222, #222222, #b1b4b3' -color-normal '#222222, #b1b4b3, #222222, #005577, #b1b4b3' -color-active '#222222, #b1b4b3, #222222, #007763, #b1b4b3' -color-urgent '#222222, #b1b4b3, #222222, #77003d, #b1b4b3' -kb-row-select 'Tab' -kb-row-tab ''"
 
 exec --no-startup-id guake
-exec --no-startup-id /usr/bin/gnome-keyring-daemon
+#exec --no-startup-id /usr/bin/gnome-keyring-daemon
 exec slack
-exec discord
 exec messengerfordesktop
 exec vivaldi-stable
 exec pycharm-community
-exec spotify --class Spotify
 exec --no-startup-id /usr/bin/ckb-next -b
+exec --no-startup-id xrandr --output DVI-D-1 --off --output HDMI-1 --mode 3840x2160 --pos 4800x0 --rotate normal --output DP-2 --primary --mode 1600x1200 --pos 1600x960 --rotate normal --output DP-1 --mode 1600x1200 --pos 0x960 --rotate normal --output HDMI-2 --mode 1600x1200 --pos 3200x960 --rotate normal
 
-# # guake replacement
-# bindsym $mod+Shift+grave exec st-dropdown top
-# exec st-dropdown top
-# for_window [class="st" instance="ST dropdown"] move scratchpad
-# for_window [class="st" instance="ST dropdown"] sticky enable
-# 
-# # Show the first scratchpad window
-# bindsym $mod+grave [class="st" instance="ST dropdown"] scratchpad show
+# guake replacement
+    # bindsym $mod+Shift+grave exec st-dropdown top
+    # exec st-dropdown top
+    # for_window [class="st" instance="ST dropdown"] move scratchpad
+    # for_window [class="st" instance="ST dropdown"] sticky enable
+    # 
+    # # Show the first scratchpad window
+    # bindsym $mod+grave [class="st" instance="ST dropdown"] scratchpad show

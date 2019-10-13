@@ -1,2 +1,5 @@
-xrandr --output eDP1 --off --output DP1 --mode 2560x1440 --output DP2 --mode 2560x1440 --right-of DP1
-feh --bg-fill Downloads/Image\ uploaded\ from\ iOS\ \(1\).jpg
+RES=2560x1440
+xrandr --addmode DP1 $RES
+xrandr --addmode HDMI2 $RES
+xrandr --output eDP1 --off --output DP1 --mode $RES --output HDMI2 --mode $RES --right-of DP1
+feh --bg-fill /home/max/Pictures/skyline.jpg

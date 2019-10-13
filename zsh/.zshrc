@@ -69,12 +69,8 @@ alias jeu='journalctl -eu '
 alias ls='ls --color=auto'
 alias ll='ls -l'
 alias la='ll -a'
-alias python=/usr/bin/python2
-alias python3=/usr/bin/python3
-alias pip=/usr/bin/pip2
-alias pip3=/usr/bin/pip3
 alias icadminv='icadmin -c 127.0.0.1 -s 5400'
-alias icadmin='icadmin --no-tunnel --testing'
+alias icadmin='icadmin --testing'
 alias extern="xrandr --output eDP1 --off --output DP2 --auto"
 alias intern="xrandr --output eDP1 --auto --output DP2 --off"
 alias vim=/bin/nvim
@@ -86,7 +82,8 @@ function raf(){
     journalctl -fu $1;
 }
 
-. /usr/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+powerline-daemon -q
+. /usr/lib/python3.7/site-packages/powerline/bindings/zsh/powerline.zsh
 # System Info
 #
 pyalsi --logo Below -l -d Arch
@@ -103,3 +100,4 @@ function icgo() {
     HOST=$1 ssh nodes-a1 "${@:2}"
 }
 source ~/.profile
+

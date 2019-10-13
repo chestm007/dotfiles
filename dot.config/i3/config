@@ -106,16 +106,16 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym j resize shrink width 2 px or 2 ppt
+        bindsym k resize grow height 2 px or 2 ppt
+        bindsym l resize shrink height 2 px or 2 ppt
+        bindsym semicolon resize grow width 2 px or 2 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Left resize shrink width 2 px or 2 ppt
+        bindsym Down resize grow height 2 px or 2 ppt
+        bindsym Up resize shrink height 2 px or 2 ppt
+        bindsym Right resize grow width 2 px or 2 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -176,21 +176,22 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id $psst pactl set-sink-volume @D
 bindsym XF86AudioLowerVolume exec --no-startup-id $psst pactl set-sink-volume @DEFAULT_SINK@ -5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update # volume down
 bindsym XF86AudioMute exec --no-startup-id $psst pactl set-sink-mute @DEFAULT_SINK@ toggle $update # mute
 
-bindsym XF86MonBrightnessUp exec light -l -A 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec light -l -U 10 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec sudo light -l -A 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec sudo light -l -U 10 # decrease screen brightness
 bindsym XF86KbdBrightnessDown exec light -k -U 10 # decrease keyboard brightness
 bindsym XF86KbdBrightnessUp  exec light -k -A 10 # increase keyboard brightness
 
-bindsym XF86AudioPlay exec [ $(cmus-remote -Q | grep status | cut -d' ' -f2)x = playingx  ] && cmus-remote -u || cmus-remote -p # play/pause
-bindsym XF86AudioNext exec cmus-remote -n # next track
-bindsym XF86AudioPrev exec cmus-remote -r # previous track
+bindsym XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
 
 bindsym $mod+shift+p exec --no-startup-id scrot 'screenshot.png' -e 'xclip -selection c -t image/png $f'
 
 # RICE RICE BABY
-# gaps inner 15
+gaps inner 15
 # smart_borders no_gaps
-# bindsym $mod+l exec --no-startup-id i3lock-wrapper
+bindsym $mod+l exec --no-startup-id i3lock-wrapper
 # exec --no-startup-id xautolock -time 10 -locker i3lock-wrapper
 
 # use compositor
@@ -200,7 +201,7 @@ exec --no-startup-id compton -b -c
 new_window 1pixel
 
 # set wallpaper
-exec --no-startup-id feh --bg-fill "/home/max/.wallpaper.jpg"
+exec --no-startup-id feh --bg-fill "/home/max/Pictures/skyline.jpg"
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run -fn 'Source Code Pro Regular-14'
@@ -213,6 +214,7 @@ exec slack
 exec discord
 exec vivaldi-stable
 exec pycharm-community
+exec ckb-next
 
 # # guake replacement
 # bindsym $mod+Shift+grave exec st-dropdown top
@@ -222,3 +224,5 @@ exec pycharm-community
 # 
 # # Show the first scratchpad window
 # bindsym $mod+grave [class="st" instance="ST dropdown"] scratchpad show
+
+exec_always ~/.config/i3/scripts/gnome-keyring.sh

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [ $1 = "md" ]; then
+        TUNNEL_PORT=10080 ssh -nTvL 3000:localhost:10080 citadel-tunnel1 instamd-01.svc.citadel.instaclustr.com
+fi

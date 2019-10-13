@@ -10,7 +10,7 @@
                                      # explicitly listed here
 ###########################################################################
 
-
+eval $(ssh-agent)
 
 TOKEN=$(authenticator --key D4X6HFQ6VCTLXMGU | grep Token | cut -d " " -f 2)
                                      # generates the current google auth
@@ -43,6 +43,8 @@ function preprod {
 
 case $1 in
     -o)
+        /home/max/.ssh/add_id_rsa
+        /home/max/.ssh/add_jb_rsa
         TARGET="admin1"
         mfa_host
         ;;

@@ -71,10 +71,11 @@ bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace number 8 intellij
+assign [class="idea"] number "8 intellij"
 bindsym $mod+9 workspace number 9 gitkraken
-assign [class="GitKraken"] number 9
-bindsym $mod+0 workspace number 10 pycharm
-assign [class="jetbrains-pycharm-ce"] number 10
+assign [class="GitKraken"] number "9 gitkraken"
+bindsym $mod+0 workspace number "10 pycharm"
+assign [class="jetbrains-pycharm-ce"] number 10 pycharm
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number 1 vivaldi
@@ -111,10 +112,10 @@ mode "resize" {
         bindsym semicolon resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Left resize grow width 10 px or 10 ppt
+        bindsym Down resize shrink height 10 px or 10 ppt
+        bindsym Up resize grow height 10 px or 10 ppt
+        bindsym Right resize shrink width 10 px or 10 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -175,10 +176,10 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id $psst pactl set-sink-volume @D
 bindsym XF86AudioLowerVolume exec --no-startup-id $psst pactl set-sink-volume @DEFAULT_SINK@ -5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update # volume down
 bindsym XF86AudioMute exec --no-startup-id $psst pactl set-sink-mute @DEFAULT_SINK@ toggle $update # mute
 
-bindsym XF86MonBrightnessUp exec light -l -A 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec light -l -U 10 # decrease screen brightness
-bindsym XF86KbdBrightnessDown exec light -k -U 10 # decrease keyboard brightness
-bindsym XF86KbdBrightnessUp  exec light -k -A 10 # increase keyboard brightness
+bindsym XF86MonBrightnessUp exec sudo light -l -A 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec sudo light -l -U 10 # decrease screen brightness
+bindsym XF86KbdBrightnessDown exec sudo light -k -U 10 # decrease keyboard brightness
+bindsym XF86KbdBrightnessUp  exec sudo light -k -A 10 # increase keyboard brightness
 
 bindsym XF86AudioPlay exec [ $(cmus-remote -Q | grep status | cut -d' ' -f2)x = playingx  ] && cmus-remote -u || cmus-remote -p # play/pause
 bindsym XF86AudioNext exec cmus-remote -n # next track
@@ -187,8 +188,8 @@ bindsym XF86AudioPrev exec cmus-remote -r # previous track
 bindsym $mod+shift+p exec --no-startup-id scrot 'screenshot.png' -e 'xclip -selection c -t image/png $f'
 
 # RICE RICE BABY
-# gaps inner 15
-# smart_borders no_gaps
+gaps inner 10
+smart_borders no_gaps
 # bindsym $mod+l exec --no-startup-id i3lock-wrapper
 # exec --no-startup-id xautolock -time 10 -locker i3lock-wrapper
 
@@ -205,7 +206,8 @@ exec --no-startup-id feh --bg-fill "/home/max/.wallpaper.jpg"
 # bindsym $mod+d exec dmenu_run -fn 'Source Code Pro Regular-14'
 #
 # dmenu replacement (rofi)
-bindsym $mod+Return exec "rofi -show run -modi run -location 1 -width 100 -lines 2 -line-margin 0 -line-padding 1 -separator-style none -font 'mono 10' -columns 9 -bw 0 -disable-history -hide-scrollbar -color-window '#222222, #222222, #b1b4b3' -color-normal '#222222, #b1b4b3, #222222, #005577, #b1b4b3' -color-active '#222222, #b1b4b3, #222222, #007763, #b1b4b3' -color-urgent '#222222, #b1b4b3, #222222, #77003d, #b1b4b3' -kb-row-select 'Tab' -kb-row-tab ''"
+bindsym $mod+Return exec "rofi -show run -modi run -location 1 -width 100 -lines 2 -line-margin 0 -line-padding 1 -separator-style none -font 'mono 10' -columns 9 -bw 0 -disable-history -hide-scrollbar -color-window '#222222, #222222, #b1b4b3' -color-normal '#222222, #b1b4b3, #222222, #005577, #b1b4b3' -color-active '#222222, #b1b4b3, #222222, #007763, #b1b4b3' -color-urgent '#222222, #b1b4b3, #222222, #77003d, #b1b4b3' -kb-row-tab ''"
+#bindsym $mod+Return exec "rofi -show run -modi run -location 1 -width 100 -lines 2 -line-margin 0 -line-padding 1 -separator-style none -font 'mono 10' -columns 9 -bw 0 -disable-history -hide-scrollbar -color-window '#222222, #222222, #b1b4b3' -color-normal '#222222, #b1b4b3, #222222, #005577, #b1b4b3' -color-active '#222222, #b1b4b3, #222222, #007763, #b1b4b3' -color-urgent '#222222, #b1b4b3, #222222, #77003d, #b1b4b3' -kb-row-select 'Tab' -kb-row-tab ''"
 
 exec --no-startup-id guake
 exec slack
@@ -213,11 +215,11 @@ exec discord
 exec vivaldi-stable
 exec pycharm-community
 
-# # guake replacement
-# bindsym $mod+Shift+grave exec st-dropdown top
-# exec st-dropdown top
-# for_window [class="st" instance="ST dropdown"] move scratchpad
-# for_window [class="st" instance="ST dropdown"] sticky enable
-# 
-# # Show the first scratchpad window
-# bindsym $mod+grave [class="st" instance="ST dropdown"] scratchpad show
+# guake replacement
+bindsym $mod+Shift+grave exec st-dropdown top
+exec st-dropdown top
+for_window [class="st" instance="ST dropdown"] move scratchpad
+for_window [class="st" instance="ST dropdown"] sticky enable
+
+# Show the first scratchpad window
+bindsym $mod+grave [class="st" instance="ST dropdown"] scratchpad show

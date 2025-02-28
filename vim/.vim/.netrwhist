@@ -1,9 +1,3 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/home/max/git/icadmin/icadmin'
-let g:netrw_dirhist_2='/home/max/git/icadmin/icadmin/utils'
-let g:netrw_dirhist_3='/home/max/.irssi'
-let g:netrw_dirhist_4='/etc/xrdp'
-let g:netrw_dirhist_5='/home/max/werk/icadmin'
-let g:netrw_dirhist_6='/home/max/.ssh'
-let g:netrw_dirhist_7='/home/max/.aws'
+let g:netrw_dirhistcnt =1
+let g:netrw_dirhist_1='/home/max/.local/share/applications'

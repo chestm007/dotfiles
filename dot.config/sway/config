@@ -1,0 +1,224 @@
+# i3 config file (v4)
+#
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+set $mod Mod4
+
+font pango:Source Code Pro Regular 14
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+t exec alacritty
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1 workspace number 1 vivaldi
+assign [class="Vivaldi-stable"] number 1
+bindsym $mod+2 workspace number 2 chats
+assign [class="Slack"] number 2
+assign [class="discord"] number 2
+bindsym $mod+3 workspace number 3 music
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace number 8 intellij
+assign [class="idea"] number "8 intellij"
+bindsym $mod+9 workspace number 9 gitkraken
+assign [class="GitKraken"] number "9 gitkraken"
+bindsym $mod+0 workspace number "10 pycharm"
+assign [class="jetbrains-pycharm-ce"] number 10 pycharm
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number 1 vivaldi
+bindsym $mod+Shift+2 move container to workspace number 2 chats
+bindsym $mod+Shift+3 move container to workspace number 3 music
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace number 8 intellij
+bindsym $mod+Shift+9 move container to workspace number 9 gitkraken
+bindsym $mod+Shift+0 move container to workspace number 10 pycharm
+
+exec --no-startup-id i3-msg 'workspace 2 chats; slack; discord;  workspace 0 pycharm; pycharm-community; workspace 9 gitkraken; gitkraken'; 
+
+# make gnome keyring password prompts work
+exec --no-startup-id dbus-update-activation-environment --all
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exit
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize grow width 10 px or 10 ppt
+        bindsym Down resize shrink height 10 px or 10 ppt
+        bindsym Up resize grow height 10 px or 10 ppt
+        bindsym Right resize shrink width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Upper i3pystatusbar
+bar {
+    status_command    python3 ~/.config/i3/topi3pystatus.conf
+    position          top
+    workspace_buttons no
+    font pango:Hack, Source Code Pro 12
+    colors {
+        background #660077
+        statusline #550066
+        separator  #440055
+                           #       # bg    # text  
+        focused_workspace  #6600AA #440066 #eee895
+        active_workspace   #440066 #220035 #839496
+        inactive_workspace #440066  #220035   #586e75
+        urgent_workspace   #cb4b16 #dc322f #fdf6e3
+    }
+}
+
+# Lower i3pystatusbar
+bar {
+    status_command    python3 ~/.config/i3/bottomi3pystatus.conf
+    position          bottom
+    workspace_buttons yes
+    font pango:Hack, Source Code Pro 12
+    colors {
+        background #660077
+        statusline #550066
+        separator  #440055
+                           #       # bg    # text  
+        focused_workspace  #6600AA #440066 #eee895
+        active_workspace   #440066 #220035 #839496
+        inactive_workspace #440066  #220035   #586e75
+        urgent_workspace   #cb4b16 #dc322f #fdf6e3
+    }
+}
+
+# start user configs #
+#exec setxkbmap us 
+# exec xrandr -s 1920x1200  # change resolution
+# exec xinput set-prop 'bcm5974' "Synaptics Scrolling Distance" -247, -247
+
+# set custom keybindings #
+bindsym XF86AudioRaiseVolume exec --no-startup-id $psst pactl set-sink-volume @DEFAULT_SINK@ +5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update # volume up
+bindsym XF86AudioLowerVolume exec --no-startup-id $psst pactl set-sink-volume @DEFAULT_SINK@ -5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update # volume down
+bindsym XF86AudioMute exec --no-startup-id $psst pactl set-sink-mute @DEFAULT_SINK@ toggle $update # mute
+
+#bindsym XF86MonBrightnessUp exec sudo light -l -A 10 # increase screen brightness
+#bindsym XF86MonBrightnessDown exec sudo light -l -U 10 # decrease screen brightness
+#bindsym XF86KbdBrightnessDown exec sudo light -k -U 10 # decrease keyboard brightness
+#bindsym XF86KbdBrightnessUp  exec sudo light -k -A 10 # increase keyboard brightness
+
+bindsym XF86AudioPlay exec [ $(cmus-remote -Q | grep status | cut -d' ' -f2)x = playingx  ] && cmus-remote -u || cmus-remote -p # play/pause
+bindsym XF86AudioNext exec cmus-remote -n # next track
+bindsym XF86AudioPrev exec cmus-remote -r # previous track
+
+bindsym $mod+shift+p exec --no-startup-id scrot 'screenshot.png' -e 'xclip -selection c -t image/png $f'
+
+# RICE RICE BABY
+gaps inner 10
+#smart_borders no_gaps
+default_border pixel 3
+#default_floating_border pixel 20
+# bindsym $mod+l exec --no-startup-id i3lock-wrapper
+# exec --no-startup-id xautolock -time 10 -locker i3lock-wrapper
+
+# use compositor
+#exec --no-startup-id compton -b -c
+
+# hide title bars
+#new_window 1pixel
+
+# set wallpaper
+#exec --no-startup-id feh --bg-fill "/home/max/wallpaper.jpg"
+exec --no-startup-id mpvpaper eDP-1 Downloads/Vegeta_Ultra_Ego_4K_Live_Wallpaper.mp4 -o "--loop" -f
+
+# start dmenu (a program launcher)
+# bindsym $mod+d exec dmenu_run -fn 'Source Code Pro Regular-14'
+#
+# dmenu replacement (rofi)
+bindsym $mod+Return exec "rofi -show run -modi run -location 2 -width 10 -lines 2 -line-margin 0 -line-padding 1 -separator-style none -font 'source code pro 10' -columns 9 -bw 0 -disable-history -hide-scrollbar -color-window '#000000, #222222, #b1b4b3' -color-normal '#222222, #000000, #222222, #005577, #b1b4b3' -color-active '#222222, #b1b4b3, #222222, #007763, #b1b4b3' -color-urgent '#222222, #b1b4b3, #222222, #77003d, #b1b4b3' -kb-row-tab ''"
+#bindsym $mod+Return exec "rofi -show run -modi run -location 1 -width 100 -lines 2 -line-margin 0 -line-padding 1 -separator-style none -font 'mono 10' -columns 9 -bw 0 -disable-history -hide-scrollbar -color-window '#222222, #222222, #b1b4b3' -color-normal '#222222, #b1b4b3, #222222, #005577, #b1b4b3' -color-active '#222222, #b1b4b3, #222222, #007763, #b1b4b3' -color-urgent '#222222, #b1b4b3, #222222, #77003d, #b1b4b3' -kb-row-select 'Tab' -kb-row-tab ''"
+
+# exec --no-startup-id guake
+exec flatpak run com.slack.Slack
+exec opera
+exec --no-startup-id echo 155 0 255 | sudo tee /sys/class/leds/rgb:kbd_backlight/multi_intensity
+
+# guake replacement
+bindsym $mod+Shift+grave exec st-dropdown top
+exec st-dropdown top
+for_window [class="st" instance="ST dropdown"] move scratchpad
+for_window [class="st" instance="ST dropdown"] sticky enable
+
+# Show the first scratchpad window
+bindsym $mod+grave [class="st" instance="ST dropdown"] scratchpad show

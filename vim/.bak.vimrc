@@ -6,23 +6,14 @@
 " fold keybinding, press 'za' to expand/fold these sections
 
 " ---- PLUGINS
-    call plug#begin() 
+    call plug#begin()
 
       " List your plugins here
-      Plug 'preservim/nerdtree'
       Plug 'tpope/vim-sensible'
       Plug 'tpope/vim-commentary'
       Plug 'fweep/vim-tabber'
       Plug 'vim-airline/vim-airline'
       Plug 'vim-airline/vim-airline-themes'
-      " Telescope
-      Plug 'nvim-lua/plenary.nvim'
-      Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
-      " telescope kickstart
-      " LSP
-      Plug 'neovim/nvim-lspconfig'
-      Plug 'mason-org/mason-lspconfig.nvim'
-      Plug 'mason-org/mason.nvim'
 
     call plug#end()
     runtime! plugin/sensible.vim  " Load sensible before our config so we can override defaults
@@ -40,8 +31,7 @@
     let g:airline_powerline_fonts = 1
     set background=dark
     colorscheme darcula
-    " let g:airline_theme="minimalist"  " Dark theme
-    let g:airline_theme="violet"
+    let g:airline_theme="luna"
     "line numbers
     set number
     map <leader> \<CR>
@@ -61,13 +51,9 @@
     set exrc
     set secure
 
-" ---- TELESCOPE - File Searching
-    " Ctrl-N to search files (same as pycharm)
-    map <C-n> :Telescope find_files<CR>
-
 " ---- NERDTREE
-    " Nerdtree keybindinging
-    " map <C-n> :NERDTreeToggle<CR>
+    " Nerdtree keybinding
+    map <C-n> :NERDTreeToggle<CR>
 
     " enable NERDTree to open when entering vim
     autocmd vimenter * NERDTree
@@ -81,7 +67,8 @@
     let g:NERDTreeAutoCenterThreshold=3
 
     " close vim if only nerdtree is open
-    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+    " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " ---- EDITOR TABS
     " Enable the list of buffers
@@ -104,6 +91,13 @@
     noremap <Leader>bq :bp <BAR> bd #<CR>
     " Show all open buffers and their status
     noremap <Leader>bl :ls<CR>
+
+    " --- outdated, from when we were using builtin vimtabs ---
+    " navigation
+    " map <M-l> :tabnext<CR>
+    " map <M-h> :tabprev<CR>
+    " map <M-Right> :tabnext<CR>
+    " map <M-Left> :tabprev<CR>
 
 " ---- CtrlP intellisense searching
     " Set up some default ignores
@@ -140,22 +134,22 @@
     noremap <C-Right> :wincmd l <CR>
 
     " resize current window
-    noremap <C-S-H> :wincmd > <CR>
-    noremap <C-S-J> :wincmd < <CR>
-    noremap <C-S-K> :wincmd - <CR>
-    noremap <C-S-L> :wincmd + <CR>
-    noremap <C-S-Left> :wincmd > <CR>
-    noremap <C-S-Right> :wincmd < <CR>
-    noremap <C-S-Down> :wincmd - <CR>
-    noremap <C-S-Up> :wincmd + <CR>
+    noremap <M-S-H> :wincmd > <CR>
+    noremap <M-S-L> :wincmd < <CR>
+    noremap <M-S-J> :wincmd - <CR>
+    noremap <M-S-K> :wincmd + <CR>
+    noremap <M-S-Left> :wincmd > <CR>
+    noremap <M-S-Right> :wincmd < <CR>
+    noremap <M-S-Down> :wincmd - <CR>
+    noremap <M-S-Up> :wincmd + <CR>
 
 " ---- TERMINAL
     " spawn terminal in new window
-    nnoremap <M-t> :split term://zsh<CR>
-    nnoremap <M-S-T> :vsplit term://zsh<CR>
+    noremap <M-t> :hor :term
+    noremap <M-S-T> :vert :term
 
     " leave terminal by pressing esc
-    tnoremap <Esc> <C-\><C-n>
+    noremap <Esc> <C-\><C-n>
 
 " ---- LANGUAGE SPECIFIC
     " python shit 
@@ -168,22 +162,8 @@
 
 " ---- YOUCOMPLETEME
     " YouCompleteMe 
-    " let g:ycm_seed_identifiers_with_syntax = 1
-
-" ---- MASON
-lua << EOF
-    
-require("mason").setup()
-require("mason-lspconfig").setup()
-
-
-EOF
+     let g:ycm_seed_identifiers_with_syntax = 1
 
 " ---- COMMENTARY
-"vim.api.nvim_create_autocmd('LspAttach', {
-"    callback = function(args)
-"        vim.bo[args.buf].formatexpr = nil
-"    end,
-"})
     
 

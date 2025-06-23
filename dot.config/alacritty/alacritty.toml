@@ -1,0 +1,32 @@
+[window]
+# RICE RICE BABY
+opacity = 0.85
+blur = true
+
+[font]
+normal = { family = "Source Code Pro", style = "Regular" }
+size = 10
+
+[colors]
+primary = { foreground = "#AA00DD" }  # Purple
+transparent_background_colors = true  # I want transparent vim
+
+[terminal]
+shell = { program = "/bin/zsh", args = ["-1"] }
+
+[mouse]
+hide_when_typing = true
+bindings = [
+    { mouse = "Middle", action = "Paste" }
+]
+
+[keyboard]
+bindings = [
+    { key = "T", mods = "Control | Shift", action = "CreateNewWindow" },
+    { key = "_", mods = "Control | Shift", action = "DecreaseFontSize" },
+    { key = "+", mods = "Control | Shift", action = "IncreaseFontSize" },
+
+    # Pycharm zoom bindings, just cos
+    { key = "<", mods = "Alt | Shift", action = "DecreaseFontSize" },
+    { key = ">", mods = "Alt | Shift", action = "IncreaseFontSize" }
+]

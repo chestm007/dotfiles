@@ -1,5 +1,9 @@
 ## Boring Crap ##
 Arch Linux:
+  - wifi:
+    - NetworkManager
+      `sudo systemctl enable --now NetworkManager`
+      autorun `nm-applet` in window manager
   - lightdm
   - sway | `dot.config/sway`
     - sway tools:
@@ -14,20 +18,18 @@ Arch Linux:
       - powerline
     - development:
       - nvim | `nvim`
-      - pycharm
       - python
-      - intellij-idea
+      - jetbrains-toolbox
       - gitkraken
     - music:
       - spotifyd | `systemd/spotifyd.service`
       - spotify_player | `dot.config/spotify-player`
     - browser:
-      - opera
+      - opera | opera --enable-features=UseOzonePlatform --ozone-platform=wayland %U
         adblock
     - chats:
       - discord
     - system tools:
-      - alsi
       - htop
       - lshw
       - i2ctools
@@ -44,12 +46,13 @@ Arch Linux:
                    i2ctools \
                    intellij-idea-community-edition \
                    feh \
+                   lightdm \
                    lshw \
                    neovim \
-                   opera \
+                   network-manager-applet \
                    powerline \
                    pycharm-community-edition \
-                   rofi \
+                   rofi-wayland \
                    spotifyd \
                    spotify-player
                    sway \
@@ -82,7 +85,7 @@ Arch Linux:
 
     sudo pacman -S kotlin \
 
-    aurman -S amazon-coretto-11
+    aurman -S amazon-corretto-11
 
 ### nvidia ###
 

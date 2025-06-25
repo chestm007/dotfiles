@@ -10,7 +10,7 @@ font pango:Source Code Pro Regular 14
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+t exec st
+bindsym $mod+t exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -91,6 +91,9 @@ bindsym $mod+Shift+0 move container to workspace number 10 pycharm
 
 exec --no-startup-id i3-msg 'workspace 2 chats; slack; discord;  workspace 0 pycharm; pycharm-community; workspace 9 gitkraken; gitkraken'; 
 
+# make gnome keyring password prompts work
+exec --no-startup-id dbus-update-activation-environment --all
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -136,18 +139,19 @@ bindsym $mod+r mode "resize"
 bar {
     status_command    python3 ~/.config/i3/topi3pystatus.conf
     position          top
-    workspace_buttons yes
+    workspace_buttons no
     font pango:Hack, Source Code Pro 12
     colors {
-        background #253941
-        statusline #e7dfd9
-        separator  #081419
-        focused_workspace  #2aa198 #073642 #eee895
-        active_workspace   #073642 #859900 #839496
-        inactive_workspace #002b36  #002b36   #586e75
+        background #660077
+        statusline #550066
+        separator  #440055
+                           #       # bg    # text  
+        focused_workspace  #6600AA #440066 #eee895
+        active_workspace   #440066 #220035 #839496
+        inactive_workspace #440066  #220035   #586e75
         urgent_workspace   #cb4b16 #dc322f #fdf6e3
     }
-  }
+}
 
 # Lower i3pystatusbar
 bar {
@@ -156,30 +160,39 @@ bar {
     workspace_buttons yes
     font pango:Hack, Source Code Pro 12
     colors {
-        background #253941
-        statusline #e7dfd9
-        separator  #081419
-        focused_workspace  #2aa198 #073642 #eee895
-        active_workspace   #073642 #859900 #839496
-        inactive_workspace #002b36  #002b36   #586e75
+        background #660077
+        statusline #550066
+        separator  #440055
+                           #       # bg    # text  
+        focused_workspace  #6600AA #440066 #eee895
+        active_workspace   #440066 #220035 #839496
+        inactive_workspace #440066  #220035   #586e75
         urgent_workspace   #cb4b16 #dc322f #fdf6e3
+        # default colours
+        # background #253941
+        # statusline #e7dfd9
+        # separator  #081419
+        # focused_workspace  #2aa198 #073642 #eee895
+        # active_workspace   #073642 #859900 #839496
+        # inactive_workspace #002b36  #002b36   #586e75
+        # urgent_workspace   #cb4b16 #dc322f #fdf6e3
     }
-  }
+}
 
 # start user configs #
-exec setxkbmap -layout us -variant mac
-exec xrandr -s 1920x1200
-exec xinput set-prop 'bcm5974' "Synaptics Scrolling Distance" -247, -247
+exec setxkbmap us 
+# exec xrandr -s 1920x1200  # change resolution
+# exec xinput set-prop 'bcm5974' "Synaptics Scrolling Distance" -247, -247
 
 # set custom keybindings #
 bindsym XF86AudioRaiseVolume exec --no-startup-id $psst pactl set-sink-volume @DEFAULT_SINK@ +5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update # volume up
 bindsym XF86AudioLowerVolume exec --no-startup-id $psst pactl set-sink-volume @DEFAULT_SINK@ -5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update # volume down
 bindsym XF86AudioMute exec --no-startup-id $psst pactl set-sink-mute @DEFAULT_SINK@ toggle $update # mute
 
-bindsym XF86MonBrightnessUp exec sudo light -l -A 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec sudo light -l -U 10 # decrease screen brightness
-bindsym XF86KbdBrightnessDown exec sudo light -k -U 10 # decrease keyboard brightness
-bindsym XF86KbdBrightnessUp  exec sudo light -k -A 10 # increase keyboard brightness
+#bindsym XF86MonBrightnessUp exec sudo light -l -A 10 # increase screen brightness
+#bindsym XF86MonBrightnessDown exec sudo light -l -U 10 # decrease screen brightness
+#bindsym XF86KbdBrightnessDown exec sudo light -k -U 10 # decrease keyboard brightness
+#bindsym XF86KbdBrightnessUp  exec sudo light -k -A 10 # increase keyboard brightness
 
 bindsym XF86AudioPlay exec [ $(cmus-remote -Q | grep status | cut -d' ' -f2)x = playingx  ] && cmus-remote -u || cmus-remote -p # play/pause
 bindsym XF86AudioNext exec cmus-remote -n # next track
@@ -189,37 +202,35 @@ bindsym $mod+shift+p exec --no-startup-id scrot 'screenshot.png' -e 'xclip -sele
 
 # RICE RICE BABY
 gaps inner 10
-smart_borders no_gaps
+#smart_borders no_gaps
+default_border pixel 3
+#default_floating_border pixel 20
 # bindsym $mod+l exec --no-startup-id i3lock-wrapper
 # exec --no-startup-id xautolock -time 10 -locker i3lock-wrapper
 
 # use compositor
-exec --no-startup-id compton -b -c
+#exec --no-startup-id compton -b -c
 
 # hide title bars
-new_window 1pixel
+#new_window 1pixel
 
 # set wallpaper
-exec --no-startup-id feh --bg-fill "/home/max/.wallpaper.jpg"
+exec --no-startup-id feh --bg-fill "/home/max/wallpaper.jpg"
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run -fn 'Source Code Pro Regular-14'
 #
 # dmenu replacement (rofi)
-bindsym $mod+Return exec "rofi -show run -modi run -location 1 -width 100 -lines 2 -line-margin 0 -line-padding 1 -separator-style none -font 'mono 10' -columns 9 -bw 0 -disable-history -hide-scrollbar -color-window '#222222, #222222, #b1b4b3' -color-normal '#222222, #b1b4b3, #222222, #005577, #b1b4b3' -color-active '#222222, #b1b4b3, #222222, #007763, #b1b4b3' -color-urgent '#222222, #b1b4b3, #222222, #77003d, #b1b4b3' -kb-row-tab ''"
+bindsym $mod+Return exec "rofi -show run -modi run -location 2 -width 10 -lines 2 -line-margin 0 -line-padding 1 -separator-style none \
+    -font 'source code pro 14' -columns 9 -bw 0 -disable-history -hide-scrollbar \
+    -color-window '#440000, #FF2222, #b1b4b3' \
+    -color-normal '#772222, #FF0000, #222222, #005577, #b1b4b3' \
+    -color-active '#222222, #FFb4b3, #222222, #007763, #b1b4b3' \
+    -color-urgent '#222222, #b1b4b3, #222222, #77003d, #b1b4b3' \
+    -kb-row-tab ''"
 #bindsym $mod+Return exec "rofi -show run -modi run -location 1 -width 100 -lines 2 -line-margin 0 -line-padding 1 -separator-style none -font 'mono 10' -columns 9 -bw 0 -disable-history -hide-scrollbar -color-window '#222222, #222222, #b1b4b3' -color-normal '#222222, #b1b4b3, #222222, #005577, #b1b4b3' -color-active '#222222, #b1b4b3, #222222, #007763, #b1b4b3' -color-urgent '#222222, #b1b4b3, #222222, #77003d, #b1b4b3' -kb-row-select 'Tab' -kb-row-tab ''"
 
 exec --no-startup-id guake
-exec slack
-exec discord
-exec vivaldi-stable
-exec pycharm-community
+exec flatpak run com.slack.Slack
+exec opera
 
-# guake replacement
-bindsym $mod+Shift+grave exec st-dropdown top
-exec st-dropdown top
-for_window [class="st" instance="ST dropdown"] move scratchpad
-for_window [class="st" instance="ST dropdown"] sticky enable
-
-# Show the first scratchpad window
-bindsym $mod+grave [class="st" instance="ST dropdown"] scratchpad show

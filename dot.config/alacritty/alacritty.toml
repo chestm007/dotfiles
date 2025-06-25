@@ -5,10 +5,10 @@ blur = true
 
 [font]
 normal = { family = "Source Code Pro", style = "Regular" }
-size = 10
+size = 12
 
 [colors]
-primary = { foreground = "#AA00DD" }  # Purple
+primary = { foreground = "#AA44BB" }  # Purple
 transparent_background_colors = true  # I want transparent vim
 
 [terminal]

@@ -134,8 +134,8 @@ bar {
     workspace_buttons no
     font pango:Hack, Source Code Pro 12
     colors {
-        background #660077
-        statusline #550066
+        background #7711AA
+        statusline #AA44BB
         separator  #440055
                            #       # bg    # text  
         focused_workspace  #6600AA #440066 #eee895
@@ -152,8 +152,8 @@ bar {
     workspace_buttons yes
     font pango:Hack, Source Code Pro 12
     colors {
-        background #660077
-        statusline #550066
+        background #7711AA
+        statusline #AA44BB
         separator  #440055
                            #       # bg    # text  
         focused_workspace  #6600AA #440066 #eee895
@@ -213,6 +213,7 @@ bindsym $mod+Return exec "rofi -show run -modi run -location 2 -width 10 -lines 
 exec flatpak run com.slack.Slack
 exec opera
 exec --no-startup-id echo 155 0 255 | sudo tee /sys/class/leds/rgb:kbd_backlight/multi_intensity
+exec --no-startup-id echo 255 | sudo tee /sys/class/leds/rgb:kbd_backlight/brightnes
 
 # guake replacement
 bindsym $mod+Shift+grave exec st-dropdown top

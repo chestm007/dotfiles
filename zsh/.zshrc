@@ -6,7 +6,7 @@ LOGIN=${USER}
 # custom scripts path
 PATH="$HOME/.local/bin:$PATH"
 # ruby path
-PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+#PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 SSH_ENV="$HOME/.ssh/environment"
 setopt inc_append_history
 setopt share_history
@@ -29,13 +29,13 @@ EDITOR=vim
 
 
 # Key Bindings
-#bindkey ';5D' emacs-backward-word
-#bindkey ';5C' emacs-forward-word
+bindkey ';5D' emacs-backward-word
+bindkey ';5C' emacs-forward-word
 bindkey '^[[A' up-line-or-search                                                
 bindkey '^[[B' down-line-or-search
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
-#bindkey "\e[3~" delete-char
+bindkey "\e[3~" delete-char
 
 #function start_agent {
 #    echo "Initialising new SSH agent..."
@@ -67,7 +67,6 @@ alias ll='ls -l'
 alias la='ll -a'
 #alias extern="xrandr --output eDP1 --off --output DP2 --auto"
 #alias intern="xrandr --output eDP1 --auto --output DP2 --off"
-alias vim=/bin/nvim -- thought this was a good idea, its not
 
 # Functions
 #

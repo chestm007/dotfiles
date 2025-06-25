@@ -1,0 +1,2 @@
+#! /bin/bash
+docker compose --project-directory /home/max/git/deployments/containers/hosting-capacity/dev up eas-db ewb

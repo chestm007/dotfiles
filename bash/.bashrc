@@ -4,6 +4,10 @@ case $- in
       *) return;;
 esac
 
+if uwsm check may-start; then
+    exec uwsm start hyprland.desktop
+fi
+
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
 

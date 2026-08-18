@@ -3,11 +3,15 @@ HISTSIZE=100000000000
 SAVEHIST=100000000000
 USERNAME="max"
 LOGIN=${USER}
+HOSTALIASES=~/.hosts
 # custom scripts path
 PATH="$HOME/.local/bin:$PATH"
 # ruby path
 #PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 SSH_ENV="$HOME/.ssh/environment"
+
+USR_LIB_PYTHON=/usr/lib/`python --version | cut -d '.' -f 1,2 | sed 's/Python\ /python/g'`
+
 setopt inc_append_history
 setopt share_history
 zstyle :compinstall filename '/home/max/.zshrc'
@@ -18,7 +22,7 @@ autoload -U +X compinit && compinit
 autoload -Uz promptinit
 bindkey -e
 
-EDITOR=vim
+EDITOR=nvim
 
 #eval `gnome-keyring-daemon --start`
 #
@@ -37,27 +41,6 @@ bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
 bindkey "\e[3~" delete-char
 
-#function start_agent {
-#    echo "Initialising new SSH agent..."
-#    (umask 066; /usr/bin/ssh-agent > "${SSH_ENV}")
-#    . "${SSH_ENV}" > /dev/null
-#    # Add Keys
-#    #
-#    .ssh/add_id_rsa > /dev/null
-#    .ssh/add_keys > /dev/null
-#}
-
-# Source SSH settings, if applicable
-#if [ -f "${SSH_ENV}" ]; then
-#    . "${SSH_ENV}" > /dev/null
-#    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-#        start_agent;
-#    }
-#else
-#    start_agent;
-#fi
-
-
 # Aliases
 #
 alias jfu='journalctl -fu '
@@ -65,8 +48,10 @@ alias jeu='journalctl -eu '
 alias ls='ls --color=auto'
 alias ll='ls -l'
 alias la='ll -a'
+alias aurman='aurman --skip_news'
 #alias extern="xrandr --output eDP1 --off --output DP2 --auto"
 #alias intern="xrandr --output eDP1 --auto --output DP2 --off"
+alias aurman="aurman --skip_news --skip_new_locations"
 
 # Functions
 #
@@ -75,7 +60,7 @@ function raf(){
     journalctl -fu $1;
 }
 
-. /usr/lib/python3.13/site-packages/powerline/bindings/zsh/powerline.zsh
+. $USR_LIB_PYTHON/site-packages/powerline/bindings/zsh/powerline.zsh
 # System Info
 #
 #pyalsi --logo Below -l -d Arch
@@ -84,3 +69,15 @@ function raf(){
 alias build_screeps="rm -r /home/max/.config/Screeps/scripts/192_168_1_2___21025/default; mkdir /home/max/.config/Screeps/scripts/192_168_1_2___21025/default; cp ~/git/screeps-starter-python/dist/main.js /home/max/.config/Screeps/scripts/192_168_1_2___21025/default/main.js; chmod a+x /home/max/.config/Screeps/scripts/192_168_1_2___21025/default/main.js"
 
 source ~/.profile
+
+# bun completions
+[ -s "/home/max/.bun/_bun" ] && source "/home/max/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+complete -o nospace -C /usr/bin/mcli mcli
+alias userctl="systemctl --user"
+
+source `hostname`-rc.zsh

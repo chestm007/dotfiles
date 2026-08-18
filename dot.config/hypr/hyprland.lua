@@ -1,9 +1,31 @@
--- Wiki link:
--- https://wiki.hyprland.org/Configuring/
+function _M.getHostname()
+    local f = io.popen ("/bin/hostname")
+    local hostname = f:read("*a") or ""
+    f:close()
+    hostname = string.gsub(hostname, "\n$", "")
+    return hostname
+end
+hostname = _M.getHostname().lower()
 
-require("globals") -- This needs to be done before anything else, incase what your doing requires one of the globals.
-require("monitorLayout")
-require("autostart")
+
+---requireLocal
+---@param modName string
+function requireLocal(modName)
+    require(modName)
+
+    local localVersion = string.format("%s/%s", hostname, modName)
+
+    f = io.open(localVersion)
+    -- if file is present, f will not be nil
+    if f then
+        f:close()
+        require(string.format("%s/%s", hostname, modName))
+    end
+end
+
+requireLocal("globals") -- This needs to be done before anything else, incase what your doing requires one of the globals.
+requireLocal("monitorLayout")
+requireLocal("autostart")
 
 
 -------------------------------
@@ -217,6 +239,6 @@ hl.window_rule({
     no_initial_focus = true,
 })
 
-require("keybinds")
-require("workspaceMappings")
-require("rice")
+requireLocal("keybinds")
+requireLocal("workspaceMappings")
+requireLocal("rice")

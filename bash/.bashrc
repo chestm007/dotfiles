@@ -70,7 +70,8 @@ alias vim='nvim'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Powerline shell
-. /usr/lib/python3.13/site-packages/powerline/bindings/bash/powerline.sh
+USR_LIB_PYTHON=/usr/lib/`python --version | cut -d '.' -f 1,2 | sed 's/Python\ /python/g'`
+. $USR_LIB_PYTHON/site-packages/powerline/bindings/bash/powerline.sh
 
 # enable programmable completion features
 if ! shopt -oq posix; then
@@ -83,4 +84,11 @@ fi
 
 alias jfu='journalctl -fu '
 alias jeu='journalctl -eu '
+function raf(){
+    systemctl restart $1;
+    journalctl -fu $1;
+}
 
+
+complete -C /usr/bin/mcli mcli
+alias userctl="systemctl --user"

@@ -83,18 +83,18 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 ------------------------------------------------------------
 
 -- Laptop multimedia keys for volume
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      { locked = true, repeating = true })
-hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true, repeating = true })
-hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true, repeating = true })
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(commands.volume.up + "5%+"), { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(commands.volume.down + "5%-"),      { locked = true, repeating = true })
+hl.bind("XF86AudioMute",        hl.dsp.exec_cmd(commands.volume.mute + "toggle"),     { locked = true, repeating = true })
+hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd(commands.volume.muteMic + "toggle"),   { locked = true, repeating = true })
 -- Monitor backlight brightness
-hl.bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd("brightnessctl -d amdgpu_bl1 set 5%+"),                  { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown",hl.dsp.exec_cmd("brightnessctl -d amdgpu_bl1 set 5%-"),                  { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd("brightnessctl -d amdgpu_bl2 set 5%+"),                  { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown",hl.dsp.exec_cmd("brightnessctl -d amdgpu_bl2 set 5%-"),                  { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd(commands.monitorBrightness + "5%+"),                  { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown",hl.dsp.exec_cmd(commands.monitorBrightness + "5%-"),                  { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd(commands.monitorBrightness + "5%+"),                  { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown",hl.dsp.exec_cmd(commands.monitorBrightness + "5%-"),                  { locked = true, repeating = true })
 -- Keyboard backlight brightness [Requires clevo-drivers-dkms-git from AUR]
-hl.bind("XF86KbdBrightnessUp",  hl.dsp.exec_cmd("brightnessctl -d rgb:kbd_backlight set 5%+"),                  { locked = true, repeating = true })
-hl.bind("XF86KbdBrightnessDown",hl.dsp.exec_cmd("brightnessctl -d rgb:kbd_backlight set 5%-"),                  { locked = true, repeating = true })
+hl.bind("XF86KbdBrightnessUp",  hl.dsp.exec_cmd(commands.keyboardBrightness + "5%+"),                  { locked = true, repeating = true })
+hl.bind("XF86KbdBrightnessDown",hl.dsp.exec_cmd(commands.keyboardBrightness + "5%-"),                  { locked = true, repeating = true })
 -- Multimedia keys [Requires playerctl]
 hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })

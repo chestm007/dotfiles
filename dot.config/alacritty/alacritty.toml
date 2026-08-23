@@ -1,6 +1,12 @@
+[general]
+import = ["~/.config/alacritty/themes/noctalia.toml"]
+
+[env]
+TERM = "xterm-256color"
+
 [window]
 # RICE RICE BABY
-opacity = 0.85
+opacity = 1
 blur = true
 
 [font]
@@ -28,5 +34,10 @@ bindings = [
 
     # Pycharm zoom bindings, just cos
     { key = "<", mods = "Alt | Shift", action = "DecreaseFontSize" },
-    { key = ">", mods = "Alt | Shift", action = "IncreaseFontSize" }
+    { key = ">", mods = "Alt | Shift", action = "IncreaseFontSize" },
+
+    # Tabs
+    { key = "t", mods = "Alt", action = "CreateNewTab" },
+    { key = "Left", mods = "Alt", action = "SelectPreviousTab" },
+    { key = "Right", mods = "Alt", action = "SelectNextTab" },
 ]

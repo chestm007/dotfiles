@@ -2,6 +2,7 @@ require("utils")
 local hostname = utils.getHostname()
 
 utils.require("globals") -- This needs to be done before anything else, incase what your doing requires one of the globals.
+utils.require("keybinds")
 utils.optionalRequire(hostname .. "/tags")
 utils.require("monitorLayout")
 utils.require("autostart")
@@ -74,7 +75,7 @@ hl.config({
 			enabled = true,
 			range = 5,
 			render_power = 1,
-			color = 0xee1a1a1a,
+			color = "0xee1a1a1a",
 		},
 
 		blur = {
@@ -195,7 +196,6 @@ hl.config({
 	},
 })
 
-utils.require("keybinds")
 utils.require("windowRules")
 utils.require("rice")
 utils.require("events")

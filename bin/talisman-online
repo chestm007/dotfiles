@@ -1,0 +1,1 @@
+PROTON_VERB=run WINEPREFIX=/mnt/data/games/talisman umu-run drive_c/Program\ Files\ \(x86\)/TalismanOnline/game.exe

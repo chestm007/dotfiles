@@ -1,0 +1,11 @@
+case $1 in
+  hdmi)
+    ddcutil -b 25 setvcp 0x60 0x01
+    ;;
+  dp1)
+    ddcutil -b 25 setvcp 0x60 0x0f
+    ;;
+  dp2)
+    ddcutil -b 25 setvcp 0x60 0x10
+    ;;
+esac

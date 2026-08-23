@@ -78,6 +78,6 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 complete -o nospace -C /usr/bin/mcli mcli
-alias userctl="systemctl --user"
 
-source `hostname`-rc.zsh
+alias ssh="~/.ssh/config.d/select-env.sh"
+alias userctl="systemctl --user"

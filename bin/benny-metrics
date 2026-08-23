@@ -1,0 +1,2 @@
+#! /bin/bash
+watch -n 1 "ssh localai10 'echo \"== localai10 ==\"; nvidia-smi | grep NVIDIA-SMI -A 9 -B 1'; ssh localai6 'echo \"== localai6 ==\"; nvidia-smi | grep NVIDIA-SMI -A 9 -B 1'"

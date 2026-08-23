@@ -25,15 +25,8 @@ hl.window_rule({
 
 hl.window_rule({
     match = {
-        class = "slack|Caprine|Spotify"
-    },
-    float = 0,
-    workspace = 2
-})
-
-hl.window_rule({
-    match = {
-        class = "jetbrains-pycharm"
+        class = "jetbrains-pycharm",
+        float = 0
     },
     workspace = 3
 })

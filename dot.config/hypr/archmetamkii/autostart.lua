@@ -1,2 +1,4 @@
-hl.exec_cmd("slack-wayland")
-hl.exec_cmd("/home/max/drata/Drata-Agent-linux.AppImage")
+hl.on("hyprland.start", function ()
+    hl.exec_cmd("slack-wayland")
+    hl.exec_cmd("/home/max/drata/Drata-Agent-linux.AppImage")
+end)

@@ -4,40 +4,32 @@ Arch Linux:
     - NetworkManager
       `sudo systemctl enable --now NetworkManager`
       autorun `nm-applet` in window manager
-  - lightdm
+  - sddm
   - hyprland
-    - USWM
-      sudo pacman -S uwsm
     - slack screen sharing
       pacman -S xdg-desktop-portal-hyprland
-  - #OUTDATED sway | `dot.config/sway`
-    - sway tools:
-      - darkman  (manage system dark/light mode)
-      - rofi
-      - feh  (static wallpaper)
-      - mpvpaper  (ricey video wallpaper)
-    - terminal: 
-      - alacritty | `dot.config/alacritty`
-      - zsh | `zsh/.zshrc`
-      - bash | `bash/.bashrc`
-      - powerline
-    - development:
-      - nvim | `nvim`
-      - python
-      - jetbrains-toolbox
-      - gitkraken
-    - music:
-      - spotifyd | `systemd/spotifyd.service`
-      - spotify_player | `dot.config/spotify-player`
-    - browser:
-      - opera | opera --enable-features=UseOzonePlatform --ozone-platform=wayland %U
-        adblock
-    - chats:
-      - discord
-    - system tools:
-      - htop
-      - lshw
-      - i2ctools
+  - terminal: 
+    - alacritty | `dot.config/alacritty`
+    - zsh | `zsh/.zshrc`
+    - bash | `bash/.bashrc`
+    - powerline
+  - development:
+    - nvim | `nvim`
+    - python
+    - jetbrains-toolbox
+    - gitkraken
+  - music:
+    - spotifyd | `systemd/spotifyd.service`
+    - spotify_player | `dot.config/spotify-player`
+  - browser:
+    - opera | opera --enable-features=UseOzonePlatform --ozone-platform=wayland %U
+      adblock
+  - chats:
+    - discord
+  - system tools:
+    - htop
+    - lshw
+    - i2ctools
 
 ### to install ###
 
@@ -45,26 +37,22 @@ Arch Linux:
 
     sudo pacman -S alacritty \
                    alsi \
-                   darkman \
                    discord \
                    htop \
                    i2ctools \
                    intellij-idea-community-edition \
-                   feh \
-                   lightdm \
+                   sddm \
                    lshw \
                    neovim \
                    network-manager-applet \
                    powerline \
                    pycharm-community-edition \
-                   rofi-wayland \
                    spotifyd \
                    spotify-player
-                   sway \
                    zsh \
 
     aurman -S gitkraken \
-              mpvpaper \
+              hyprland-meta-git \
               opera \
               opera-adblock-complete \
               opera-ffmpeg-codecs
@@ -97,7 +85,35 @@ Arch Linux:
 .. code-block:: bash
 
     # nvidia-open only for NEWER GPU's, pretty sure its Turing onwards (TUxxx in lspci -v)
+    #   NOTE: replace nvidia-* with nvidia-*-dkms from pacman if running linux-zen kernel or 
+    #         any kernel that pacman doesnt provide an nvidia-*-<KERNEL_NAME> package for.
     sudo pacman -S nvidia-open \
                    nvidia-prime \
                    nvidia-settings \
                    opencl-nvidia
+
+### Clavo Drivers - fan control and keyboard backlights ###
+
+.. code-block:: bash
+
+    aurman -S clevo-drivers-dkms-git
+
+### Hyprland from git - if you're feeling insane... ###
+
+Packages
+
+.. code-block:: bash
+
+    aurman -S hyprland-git hypridle-git hyprpaper-git xdg-desktop-portal-hyprland-git
+
+## sketchily removed packages ##
+
+- pacman -Rs lutris
+  - unzip
+  - 7zip
+  - cabextract
+  - gnome-desktop ?
+  - gnome-desktop-common ??
+  - mesa-utils
+  - webkit2gtk
+  - woff

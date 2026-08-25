@@ -2,7 +2,7 @@
 # modify it to suit (probs just cpu config shit.
 sudo pacman -S libvirt qemu-full virt-manager gamemode
 
-# vim mkinitcpio.conf add the following
+# vim mkinitcpio.conf add the following then run `mkinitcpio -P`
 MODULES=(vfio_pci vfio vfio_iommu_type1)
 
 # vim /etc/default/grub - add the following
@@ -19,3 +19,13 @@ https://github.com/VirtualDrivers/Virtual-Display-Driver/releases
 
 # to get steam to actually use the card you've isolated (after unbinding)
 DXVK_FILTER_DEVICE_NAME="AMD Radeon RX 6800 XT (RADV NAVI21)" gamemoderun %command%
+
+# Use spice for keyboard and mouse only
+# modify XML, "Video QXL" - below is the default, set it to <model type="None"/>
+<video>
+  <model type="qxl" ram="65536" vram="65536" vgamem="16384" heads="1" primary="yes"/>
+  <address type="pci" domain="0x0000" bus="0x00" slot="0x01" function="0x0"/>
+</video>
+
+# further reading
+# what is this `vfio_virqfd`

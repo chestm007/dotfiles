@@ -156,7 +156,7 @@ cbTimer = hl.timer(function()
 end, { timeout = 500, type = "repeat" })
 cbTimer:set_enabled(false)
 
-hl.bind(mainMod .. " + W", function()
+hl.bind(MAINMOD .. " + W", function()
 	local workflowOptions = ""
 	for k, _ in pairs(workflows) do
 		workflowOptions = workflowOptions .. "," .. k

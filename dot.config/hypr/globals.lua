@@ -20,6 +20,3 @@ COMMANDS = {
 	},
 }
 
-function NOTIFY(msg)
-	hl.notification.create({ text = msg, timeout = 3000 })
-end

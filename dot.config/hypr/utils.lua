@@ -1,7 +1,11 @@
+function NOTIFY(msg)
+	hl.notification.create({ text = msg, timeout = 3000 })
+end
+
 ---get_exec_result
 ---@param command string
 local function get_exec_result(command)
-	local f = io.popen("uname -n")
+	local f = io.popen(command)
 	if f then
 		local result = f:read("*a"):gsub("%s+", "")
 		f:close()
@@ -21,6 +25,7 @@ end
 
 local hostname = getHostname()
 local configDir = getConfigDir()
+NOTIFY(configDir)
 
 ---optionalRequire
 --- check file presence before requiring, do nothing if the file doesnt exist

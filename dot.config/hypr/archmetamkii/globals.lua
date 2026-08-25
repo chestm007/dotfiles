@@ -19,9 +19,9 @@ local function getMonitorBrightness()
 	return line
 end
 
-commands.keyboardBrightness = "brightnessctl -d rgb:kbd_backlight set "
-commands.monitorBrightness = "brightnessctl -d " .. monitorBrightnessDevice .. " set "
-commands.monitorBrightnessGet = getMonitorBrightness
+COMMANDS.keyboardBrightness = "brightnessctl -d rgb:kbd_backlight set "
+COMMANDS.monitorBrightness = "brightnessctl -d " .. monitorBrightnessDevice .. " set "
+COMMANDS.monitorBrightnessGet = getMonitorBrightness
 
 laptopScreenOutputName = "eDP-1"
 vncHeadlessOutputName = "VNC-SCREEN"

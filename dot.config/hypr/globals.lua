@@ -1,16 +1,16 @@
 -- declare all global variables here, think of this as .env for docker-compose
-mainMod = "SUPER" -- Sets "Windows" key as main modifier
+MAINMOD = "SUPER" -- Sets "Windows" key as main modifier
 
 --- Programs
-terminal = "alacritty"
+TERMINAL = "alacritty"
 --fileManager   = "dolphin"
-fileManager = "nautilus" -- gnome file browser
-menu = "hyprlauncher"
+FILEMANAGER = "nautilus" -- gnome file browser
+MENU = "hyprlauncher"
 
 -- custom Hyprland variables
-windowResizeIncrement = 20
+WINDOW_RESIZE_INCREMENT = 20
 
-commands = {
+COMMANDS = {
 	keyboardBrightness = "",
 	volume = {
 		up = "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ ",
@@ -20,6 +20,6 @@ commands = {
 	},
 }
 
-function notify(msg)
+function NOTIFY(msg)
 	hl.notification.create({ text = msg, timeout = 3000 })
 end

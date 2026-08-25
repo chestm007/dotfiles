@@ -3,63 +3,72 @@
 ---------------------
 
 -- Global Binds
-hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal)) -- Terminal
-hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close())
+hl.bind(MAINMOD .. " + T", hl.dsp.exec_cmd(TERMINAL)) -- Terminal
+hl.bind(MAINMOD .. " + SHIFT + Q", hl.dsp.window.close())
 hl.bind(
-	mainMod .. " + SHIFT + E",
+	MAINMOD .. " + SHIFT + E",
 	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")
 )
-hl.bind(mainMod .. " + F", hl.dsp.exec_cmd(fileManager)) -- File Browser
-hl.bind(mainMod .. " + SHIFT + SPACE", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
-hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd('grim -g "`slurp`" - | wl-copy'))
-hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("hyprlock"))
+hl.bind(MAINMOD .. " + F", hl.dsp.exec_cmd(FILEMANAGER)) -- File Browser
+hl.bind(MAINMOD .. " + SHIFT + SPACE", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(MAINMOD .. " + RETURN", hl.dsp.exec_cmd(MENU))
+hl.bind(MAINMOD .. " + P", hl.dsp.window.pseudo())
+hl.bind(MAINMOD .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
+hl.bind(MAINMOD .. " + Print", hl.dsp.exec_cmd('grim -g "`slurp`" - | wl-copy'))
+hl.bind(MAINMOD .. " + SHIFT + L", hl.dsp.exec_cmd("hyprlock"))
 
--- Move focus with mainMod + arrow keys
-hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
-hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
+for _, direction in ipairs({ "left", "right", "down", "up" }) do
+	-- Move focus with mainMod + arrow keys
+	hl.bind(MAINMOD .. " + " .. direction, hl.dsp.focus({ direction = direction }))
+	-- Move window with mainMod + arrow keys
+	hl.bind(MAINMOD .. " + SHIFT + " .. direction, hl.dsp.window.move({ direction = direction, follow = false }))
+end
 
--- Move window with mainMod + arrow keys
-hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.move({ direction = "left", follow = false }))
-hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "right", follow = false }))
-hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.move({ direction = "up", follow = false }))
-hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.move({ direction = "down", follow = false }))
-
-local workspaceMoveMod = mainMod .. " + CTRL + SHIFT"
 -- Move workspace to other monitor
-hl.bind(workspaceMoveMod .. " + left", hl.dsp.workspace.move({ monitor = "+1" }))
-hl.bind(workspaceMoveMod .. " + right", hl.dsp.workspace.move({ monitor = "-1" }))
+for direction, modifier in pairs({ left = "+1", right = "-1" }) do
+	hl.bind(MAINMOD .. " + CTRL + SHIFT + " .. direction, hl.dsp.workspace.move({ monitor = modifier }))
+end
 
 -- Switch to a submap called `resize`.
-hl.bind(mainMod .. " + R", hl.dsp.submap("resize"))
-hl.bind(mainMod .. " + SHIFT + R", function()
+hl.bind(MAINMOD .. " + R", hl.dsp.submap("resize"))
+hl.bind(MAINMOD .. " + SHIFT + R", function()
 	hl.exec_cmd("hyprctl reload")
 end)
 
 -- Tabbed windows
-hl.bind(mainMod .. " + G", hl.dsp.group.toggle())
-hl.bind(mainMod .. " + TAB", hl.dsp.group.next())
-hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.group.prev())
+hl.bind(MAINMOD .. " + G", hl.dsp.group.toggle())
+hl.bind(MAINMOD .. " + TAB", hl.dsp.group.next())
+hl.bind(MAINMOD .. " + SHIFT + TAB", hl.dsp.group.prev())
 
+local function resize(multiplier, relative)
+	if relative == nil then
+		relative = true
+	end
+	if multiplier.x == nil then
+		multiplier.x = 0
+	end
+	if multiplier.y == nil then
+		multiplier.y = 0
+	end
+	return { x = multiplier.x, y = multiplier.y, relative = relative }
+end
 -- Start a submap called "resize".
 hl.define_submap("resize", function()
-	-- Set repeating binds for resizing the active window.
-	hl.bind("right", hl.dsp.window.resize({ x = windowResizeIncrement, y = 0, relative = true }), { repeating = true })
-	hl.bind(
-		"left",
-		hl.dsp.window.resize({ x = windowResizeIncrement * -1, y = 0, relative = true }),
-		{ repeating = true }
-	)
-	hl.bind("down", hl.dsp.window.resize({ x = 0, y = windowResizeIncrement, relative = true }), { repeating = true })
-	hl.bind(
-		"up",
-		hl.dsp.window.resize({ x = 0, y = windowResizeIncrement * -1, relative = true }),
-		{ repeating = true }
-	)
+	for direction, multiplier in pairs({
+		right = resize({ x = 1 }),
+		left = resize({ x = -1 }),
+		down = resize({ y = 1 }),
+		up = resize({ y = -1 }),
+	}) do
+		-- Set repeating binds for resizing the active window.
+		hl.bind(direction, hl.dsp.window.resize(MUL(multiplier, WINDOW_RESIZE_INCREMENT)), { repeating = true })
+		-- Set repeating binds for resizing the active window (large increments).
+		hl.bind(
+			"SHIFT + " .. direction,
+			hl.dsp.window.resize(MUL(multiplier, WINDOW_RESIZE_INCREMENT * 10)),
+			{ repeating = true }
+		)
+	end
 
 	-- Use `reset` to go back to the global submap
 	hl.bind("escape", hl.dsp.submap("reset"))
@@ -69,31 +78,31 @@ end)
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
 for i = 1, 10 do
 	local key = i % 10 -- 10 maps to key 0
-	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
-	hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i, follow = false }))
+	hl.bind(MAINMOD .. " + " .. key, hl.dsp.focus({ workspace = i }))
+	hl.bind(MAINMOD .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i, follow = false }))
 end
 
 -- Example special workspace (scratchpad)
-hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+hl.bind(MAINMOD .. " + S", hl.dsp.workspace.toggle_special("magic"))
+hl.bind(MAINMOD .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Scroll through existing workspaces with mainMod + scroll
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
+hl.bind(MAINMOD .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
+hl.bind(MAINMOD .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+hl.bind(MAINMOD .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
+hl.bind(MAINMOD .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 ------------------------------------------------------------
 -- Keybinds that really should have just been autodetected --
 ------------------------------------------------------------
 
 -- Laptop multimedia keys for volume
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(commands.volume.up .. " 5%+"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(commands.volume.down .. " 5%-"), { locked = true, repeating = true })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd(commands.volume.mute .. " toggle"), { locked = true, repeating = true })
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(commands.volume.muteMic .. " toggle"), { locked = true, repeating = true })
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(COMMANDS.volume.up .. " 5%+"), { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(COMMANDS.volume.down .. " 5%-"), { locked = true, repeating = true })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd(COMMANDS.volume.mute .. " toggle"), { locked = true, repeating = true })
+hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(COMMANDS.volume.muteMic .. " toggle"), { locked = true, repeating = true })
 -- Multimedia keys [Requires playerctl]
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })

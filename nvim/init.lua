@@ -1,3 +1,4 @@
+--require("config.lazy")
 require("pluginConf")
 
 --vim.cmd.colorscheme("darcula-dark")
@@ -9,6 +10,7 @@ vim.cmd.colorscheme("darcula-solid")
 vim.g.airline_theme = "luna"
 vim.o.number = true
 vim.o.wrap = false -- disable line wrapping
+vim.g.mapleader = " "
 -- vim.o.background = "dark"
 
 vim.g.airline_powerline_fonts = true

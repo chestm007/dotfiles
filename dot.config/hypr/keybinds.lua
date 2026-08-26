@@ -5,6 +5,7 @@
 -- Global Binds
 hl.bind(MAINMOD .. " + T", hl.dsp.exec_cmd(TERMINAL)) -- Terminal
 hl.bind(MAINMOD .. " + SHIFT + Q", hl.dsp.window.close())
+hl.bind(MAINMOD .. " + SHIFT + K", hl.dsp.window.kill())
 hl.bind(
 	MAINMOD .. " + SHIFT + E",
 	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")

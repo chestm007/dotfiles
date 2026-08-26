@@ -36,8 +36,4 @@ bindings = [
     { key = "<", mods = "Alt | Shift", action = "DecreaseFontSize" },
     { key = ">", mods = "Alt | Shift", action = "IncreaseFontSize" },
 
-    # Tabs
-    { key = "t", mods = "Alt", action = "CreateNewTab" },
-    { key = "Left", mods = "Alt", action = "SelectPreviousTab" },
-    { key = "Right", mods = "Alt", action = "SelectNextTab" },
 ]

@@ -93,7 +93,6 @@ UTILS.require("rice")
 UTILS.require("windowRules")
 UTILS.require("rice")
 UTILS.require("events")
-UTILS.require("alacritty")
 UTILS.require("workspaceMappings")
 
 UTILS.optionalRequire(hostname .. "/remmina")

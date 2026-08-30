@@ -1,3 +1,7 @@
+local Table = require("utils/table")
+local gamemode = require("gamemode")
+require("utils/string")
+
 ---------------------
 ---- KEYBINDINGS ----
 ---------------------
@@ -51,7 +55,7 @@ local function resize(multiplier, relative)
 	if multiplier.y == nil then
 		multiplier.y = 0
 	end
-	return { x = multiplier.x, y = multiplier.y, relative = relative }
+	return Table({ x = multiplier.x, y = multiplier.y, relative = relative })
 end
 -- Start a submap called "resize".
 hl.define_submap("resize", function()
@@ -61,12 +65,13 @@ hl.define_submap("resize", function()
 		down = resize({ y = 1 }),
 		up = resize({ y = -1 }),
 	}) do
+		multiplier:get("left", 2)
 		-- Set repeating binds for resizing the active window.
-		hl.bind(direction, hl.dsp.window.resize(MUL(multiplier, WINDOW_RESIZE_INCREMENT)), { repeating = true })
+		hl.bind(direction, hl.dsp.window.resize(multiplier:mul(WINDOW_RESIZE_INCREMENT)), { repeating = true })
 		-- Set repeating binds for resizing the active window (large increments).
 		hl.bind(
 			"SHIFT + " .. direction,
-			hl.dsp.window.resize(MUL(multiplier, WINDOW_RESIZE_INCREMENT * 10)),
+			hl.dsp.window.resize(multiplier:mul(WINDOW_RESIZE_INCREMENT * 10)),
 			{ repeating = true }
 		)
 	end
@@ -85,7 +90,13 @@ end
 
 -- Example special workspace (scratchpad)
 hl.bind(MAINMOD .. " + S", hl.dsp.workspace.toggle_special("magic"))
-hl.bind(MAINMOD .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+-- hl.bind(MAINMOD .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic", follow = false }))
+hl.bind(MAINMOD .. " + SHIFT + S", function()
+	local window = hl.get_active_window()
+	notify(type(window))
+	hl.dispatch(hl.dsp.window.move({ workspace = "special:magic", follow = false }))
+	notify("moved")
+end)
 
 -- Scroll through existing workspaces with mainMod + scroll
 hl.bind(MAINMOD .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
@@ -119,17 +130,5 @@ hl.bind("SUPER + F1", function()
 		return
 	end
 
-	hl.config({
-
-		animations = {
-			enabled = false, -- Disable animations
-		},
-
-		-- Disable blur, shadow and window rounding
-		decoration = {
-			shadow = { enabled = false },
-			blur = { enabled = false },
-			motion_blur = { enabled = false },
-		},
-	})
+	gamemode.enable()
 end)

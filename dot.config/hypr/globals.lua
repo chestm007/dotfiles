@@ -11,7 +11,7 @@ MENU = "hyprlauncher"
 WINDOW_RESIZE_INCREMENT = 20
 
 COMMANDS = {
-	keyboardBrightness = "",
+	keyboard_brightness = "",
 	volume = {
 		up = "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ ",
 		down = "wpctl set-volume @DEFAULT_AUDIO_SINK@ ",
@@ -19,4 +19,3 @@ COMMANDS = {
 		muteMic = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ ",
 	},
 }
-

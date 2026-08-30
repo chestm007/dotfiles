@@ -1,11 +1,66 @@
-require("utils")
-local hostname = UTILS.getHostname()
+function notify(msg, timeout)
+	hl.notification.create({
+		text = msg,
+		timeout = timeout or 3000,
+	})
+end
 
-UTILS.require("globals") -- This needs to be done before anything else, incase what your doing requires one of the globals.
-UTILS.require("keybinds")
-UTILS.optionalRequire(hostname .. "/tags")
-UTILS.require("monitorLayout")
-UTILS.require("autostart")
+local _type = type
+type = function(v)
+	if _type(v) == "userdata" then
+		local name = getmetatable(v).__name
+		if type(name) == "string" then
+			return name
+		end
+	end
+	return _type(v)
+end
+
+---@type fun<K, V>(t: table<K, V?>): boolean
+function all(t)
+	for _, v in ipairs(t) do
+		if not v then
+			return false
+		end
+	end
+	return true
+end
+
+---@type fun<K, V>(t: table<K, V?>): boolean
+function any(t)
+	for _, v in ipairs(t) do
+		if v then
+			return true
+		end
+	end
+	return false
+end
+
+---@type fun<R>(module: string): R
+require = require("utils/require")
+require("globals") -- This needs to be done before anything else, incase what your doing requires one of the globals.
+__HL = require("hl_extensions/hl")
+
+__HL_PATCHED = nil ---@type boolean?
+__DEBUG = true
+MAINMOD = "SUPER" -- Sets "Windows" key as main modifier
+
+function debug(...)
+	if __DEBUG then
+		notify(...)
+	end
+end
+
+hl.bind(MAINMOD .. " + SHIFT + d", function()
+	__DEBUG = __DEBUG == false
+	notify("DEBUG " .. (__DEBUG and "ON" or "OFF"))
+end)
+
+require("hyprland")
+require("keybinds")
+require("tags")
+require("monitorLayout")
+require("autostart")
 
 -------------------------------
 ---- ENVIRONMENT VARIABLES ----
@@ -89,10 +144,13 @@ hl.config({
 	},
 })
 
-UTILS.require("rice")
-UTILS.require("windowRules")
-UTILS.require("rice")
-UTILS.require("events")
-UTILS.require("workspaceMappings")
+require("rice")
+require("windowRules")
+require("rice")
+require("events")
+require("workspaceMappings")
+-- require("remmina")
 
-UTILS.optionalRequire(hostname .. "/remmina")
+-- For Noctalia Color templates
+require("noctalia").apply_theme()
+require("config", true)

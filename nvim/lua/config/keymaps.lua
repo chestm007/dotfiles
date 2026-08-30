@@ -46,6 +46,9 @@ local setup = {
       remap.silent("n", "<M-left>", ":bprev<CR>")
       remap.silent("n", "<M-right>", ":bnext<CR>")
 
+      -- close buffer
+      remap.silent("n", "<M-q>", "<leader>bd", { remap = true })
+
       -- go to variable definition
       remap.silent("n", "<C-Enter>", "gd", { remap = true })
 

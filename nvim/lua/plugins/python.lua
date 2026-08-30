@@ -1,6 +1,7 @@
 return {
   {
     "nvim-neotest/neotest",
+    ft = "python",
     opts = {
       adapters = {
         require("neotest-python")({

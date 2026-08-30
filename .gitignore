@@ -1,2 +1,10 @@
 
 .idea/
+
+dot.config/alacritty/themes/noctalia.toml
+
+dot.config/hypr/noctalia.lua
+
+nvim/lua/matugen.lua
+
+nvim/lua/plugins/base16.lua

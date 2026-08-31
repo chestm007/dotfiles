@@ -36,8 +36,20 @@ end
 
 -- Switch to a submap called `resize`.
 hl.bind(MAINMOD .. " + R", hl.dsp.submap("resize"))
+
 hl.bind(MAINMOD .. " + SHIFT + R", function()
 	hl.exec_cmd("hyprctl reload")
+end)
+
+__CONFIG_AUTORELOAD = hl.get_config("misc.disable_autoreload")
+hl.bind(MAINMOD .. " + ALT + R", function()
+	hl.config({
+		misc = {
+			disable_autoreload = __CONFIG_AUTORELOAD == false,
+		},
+	})
+	__CONFIG_AUTORELOAD = hl.get_config("misc.disable_autoreload")
+	notify("AUTORELOAD " .. (__CONFIG_AUTORELOAD and "OFF" or "ON"))
 end)
 
 -- Tabbed windows

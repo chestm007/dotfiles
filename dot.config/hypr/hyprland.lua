@@ -36,14 +36,13 @@ function any(t)
 	return false
 end
 
----@type fun<R>(module: string): R
+---@type fun<R>(module: string, dir?: boolean): R
 require = require("utils/require")
 require("globals") -- This needs to be done before anything else, incase what your doing requires one of the globals.
 __HL = require("hl_extensions/hl")
 
 __HL_PATCHED = nil ---@type boolean?
 __DEBUG = true
-MAINMOD = "SUPER" -- Sets "Windows" key as main modifier
 
 function debug(...)
 	if __DEBUG then
@@ -151,6 +150,7 @@ require("events")
 require("workspaceMappings")
 -- require("remmina")
 
+require("config", true)
 -- For Noctalia Color templates
 require("noctalia").apply_theme()
 require("config", true)

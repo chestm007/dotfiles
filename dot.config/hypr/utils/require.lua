@@ -1,5 +1,4 @@
 require("utils/string")
----@type fun<R>(module: string): R
 local _require = require
 local utils = require("utils")
 

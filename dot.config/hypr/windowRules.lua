@@ -64,7 +64,7 @@ hl.window_rule({
 hl.window_rule({
 	name = "floating-windows",
 	match = {
-		class = "dev.noctalia.noctalia-qs",
+		class = "dev.noctalia.*",
 	},
 	float = true,
 })

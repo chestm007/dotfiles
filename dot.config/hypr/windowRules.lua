@@ -130,11 +130,10 @@ hl.on("window.open", function(window)
 				hl.dispatch(hl.dsp.window.resize({
 					x = window.size.x + 1,
 					y = window.size.y,
-					window = window,
+					window = window.__userdata,
 				}))
 			end, { timeout = 100, type = "oneshot" })
-			debug(type(window))
-
+			debug(type(window.__userdata))
 			local cur_monitor = hl.get_monitor_at_cursor()
 			local monitor_bounds = T({
 				left = cur_monitor.x,
@@ -160,8 +159,8 @@ hl.on("window.open", function(window)
 			)
 			debug("CURSOR:: " .. cursor_pos.x .. " || " .. cursor_pos.y, 10000)
 
-			hl.dispatch(hl.dsp.window.move({ x = new_window_pos.x, y = new_window_pos.y, window = window }))
-			hl.dispatch(hl.dsp.focus({ window = window }))
+			hl.dispatch(hl.dsp.window.move({ x = new_window_pos.x, y = new_window_pos.y, window = window.__userdata }))
+			hl.dispatch(hl.dsp.focus({ window = window.__userdata }))
 		else
 			debug("must be a JB Tab")
 		end
@@ -169,7 +168,12 @@ hl.on("window.open", function(window)
 	end
 end)
 
--- Old Legacy code from hyprlang that hasnt been ported to lua yet.
-
---windowrule = no_anim = true, match:workspace = 3
---windowrule = no_initial_focus on, match:xwayland true  # https://wiki.archlinux.org/title/Hyprland#Jetbrains_apps_focus_issues
+-- PCSX2
+hl.window_rule({
+	name = "pcsx2-settings",
+	match = {
+		class = "pcsx2-qt",
+		title = "PCSX2 Settings",
+	},
+	float = 1,
+})

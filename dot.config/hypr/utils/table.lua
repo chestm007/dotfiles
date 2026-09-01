@@ -24,6 +24,7 @@
 ---@field get fun(self: Table, k: K, default?: V): V
 ---@field merge fun(self: Table, other: Table<K, any>): Table<K, V>
 ---@field update fun(self: Table, other: Table): Table<K, V>
+---
 local Table = {}
 
 ---@generic K: integer|string
@@ -80,6 +81,10 @@ function Table:add(n)
 	end
 end
 
+function table:__add(self, v)
+	self:add(v)
+end
+
 ---If n is a number, subtract that number from all numeric values in the table.
 ---If n is a table, subtract matching keys only.
 function Table:sub(n)
@@ -92,6 +97,10 @@ function Table:sub(n)
 			return v - n[k]
 		end)
 	end
+end
+
+function table:__sub(self, v)
+	self:sub(v)
 end
 
 function Table:ensure_in_bounds(bounds)
@@ -110,6 +119,10 @@ function Table:mul(n)
 	return self:for_each_number(function(v)
 		return v * n
 	end)
+end
+
+function table:__mul(self, v)
+	self:mul(v)
 end
 
 function Table:size()

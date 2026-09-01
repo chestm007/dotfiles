@@ -8,21 +8,21 @@ function Project:new(title)
 	setmetatable(obj, Project)
 
 	obj.title = title
-	obj.window = obj:getWindow()
-	obj:unsetMoved()
+	obj.window = obj:get_window()
+	obj:unset_moved()
 	return obj
 end
-function Project:getWindow()
+function Project:get_window()
 	local windows = hl.get_windows({ tag = "Jetbrains*" })
 
 	for _, window in ipairs(windows) do
-		local escapedTitle = string.gsub(self.title, "%-", "%%-")
-		if string.find(window.title, escapedTitle) then
+		local escaped_title = string.gsub(self.title, "%-", "%%-")
+		if string.find(window.title, escaped_title) then
 			return window
 		end
 	end
 end
-function Project:movedTrackerTag()
+function Project:moved_tracker_tag()
 	return "hyprworkflow::" .. self.title .. "::moved"
 end
 function Project:tag(tag)
@@ -30,11 +30,11 @@ function Project:tag(tag)
 		self.window.tag({ tag = tag })
 	end
 end
-function Project:setMoved()
-	self:tag("+" .. self:movedTrackerTag())
+function Project:set_moved()
+	self:tag("+" .. self:moved_tracker_tag())
 end
-function Project:unsetMoved()
-	self:tag("-" .. self:movedTrackerTag())
+function Project:unset_moved()
+	self:tag("-" .. self:moved_tracker_tag())
 end
 
 local projects = {
@@ -56,7 +56,7 @@ function Dependency:new(project, workspace)
 	obj.workspace = workspace
 	return obj
 end
-function Dependency:createWindowRule()
+function Dependency:create_window_rule()
 	return hl.window_rule({
 		match = {
 			tag = "Jetbrains",
@@ -66,12 +66,12 @@ function Dependency:createWindowRule()
 		workspace = self.workspace,
 	})
 end
-function Dependency:moveToWorkspace()
-	local window = self:getWindow()
+function Dependency:move_to_workspace()
+	local window = self:get_window()
 	if window == nil then
 		return false
 	end
-	hl.dispatch(hl.dsp.window.move({ workspace = self.workspace, follow = false, window = self:getWindow() }))
+	hl.dispatch(hl.dsp.window.move({ workspace = self.workspace, follow = false, window = self:get_window() }))
 	return true
 end
 
@@ -83,7 +83,7 @@ function Workflow:new(dependencies)
 	obj.dependencies = dependencies
 	local rules = {}
 	for i, d in ipairs(dependencies) do
-		local rule = d:createWindowRule()
+		local rule = d:create_window_rule()
 		rule:set_enabled(false)
 		rules[i] = rule
 	end
@@ -93,7 +93,7 @@ end
 function Workflow:enable()
 	for i, d in ipairs(self.dependencies) do
 		self.rules[i]:set_enabled(true)
-		d:moveToWorkspace()
+		d:move_to_workspace()
 	end
 end
 

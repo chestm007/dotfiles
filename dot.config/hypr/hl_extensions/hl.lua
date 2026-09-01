@@ -54,11 +54,11 @@ function _on_wrappers.default(obj, ...)
 end
 
 ---@overload fun(event: HL.EventName, cb: fun(...)): HL.EventSubscription
----@overload fun(event: WindowEvents, cb: fun(window: HL.Window)): HL.EventSubscription
----@overload fun(event: MonitorEvents, cb: fun(window: HL.Monitor)): HL.EventSubscription
+---@overload fun(event: WindowEvents, cb: fun(window: Window)): HL.EventSubscription
+---@overload fun(event: MonitorEvents, cb: fun(window: Monitor)): HL.EventSubscription
 ---@overload fun(event: NoParamEvents, cb: fun()): HL.EventSubscription
----@overload fun(event: "window.active", cb: fun(window: HL.Window, focus_reason: integer)): HL.EventSubscription
----@overload fun(event: "window.move_to_workspace", cb: fun(window: HL.Window, workspace: HL.Workspace)): HL.EventSubscription
+---@overload fun(event: "window.active", cb: fun(window: Window, focus_reason: integer)): HL.EventSubscription
+---@overload fun(event: "window.move_to_workspace", cb: fun(window: Window, workspace: HL.Workspace)): HL.EventSubscription
 hl.on = function(event, cb)
 	return _hl.on(event, function(...)
 		local _func = _on_wrappers:get(event, _on_wrappers.default)

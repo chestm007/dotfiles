@@ -153,4 +153,3 @@ require("workspaceMappings")
 require("config", true)
 -- For Noctalia Color templates
 require("noctalia").apply_theme()
-require("config", true)

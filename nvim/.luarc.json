@@ -1,7 +1,12 @@
 {
-  "workspace": {
-    "library": [
-      "/usr/share/nvim/runtime/lua"
-    ]
-  }
+    "workspace": {
+        "library": [
+            "lua",
+            "$VIMRUNTIME",
+            "${3rd}/luv/library"
+        ],
+        "ignoreDir": [
+            "test"
+        ]
+    }
 }

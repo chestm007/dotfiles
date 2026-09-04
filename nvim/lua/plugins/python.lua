@@ -1,6 +1,7 @@
 return {
   {
     "nvim-neotest/neotest",
+    ft = "python",
     dependencies = {
       "nvim-neotest/nvim-nio",
       "nvim-lua/plenary.nvim",
@@ -19,6 +20,7 @@ return {
               if (file_path:match("/test/") or file_path:match("/tests/")) == nil then
                 return false
               end
+
               local filename = vim.fn.fnamemodify(file_path, ":t")
               return vim.startswith(filename, "test_")
                 or vim.endswith(filename, "_test.py")

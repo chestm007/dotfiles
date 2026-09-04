@@ -8,6 +8,7 @@
       "__HL_PATCHED",
       "notify",
       "all",
-      "any"
+      "any",
+        "_require"
     ]
 }

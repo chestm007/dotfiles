@@ -1,5 +1,4 @@
 local Table = require("utils/table")
-local gamemode = require("gamemode")
 require("utils/string")
 
 ---------------------
@@ -14,7 +13,7 @@ hl.bind(
 	MAINMOD .. " + SHIFT + E",
 	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")
 )
-hl.bind(MAINMOD .. " + F", hl.dsp.exec_cmd(FILEMANAGER)) -- File Browser
+hl.bind(MAINMOD .. " + SHIFT + F", hl.dsp.exec_cmd(FILEMANAGER)) -- File Browser
 hl.bind(MAINMOD .. " + SHIFT + SPACE", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(MAINMOD .. " + RETURN", hl.dsp.exec_cmd(MENU))
 hl.bind(MAINMOD .. " + P", hl.dsp.window.pseudo())
@@ -22,6 +21,7 @@ hl.bind(MAINMOD .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
 hl.bind(MAINMOD .. " + Print", hl.dsp.exec_cmd('grim -g "`slurp`" - | wl-copy'))
 hl.bind(MAINMOD .. " + SHIFT + L", hl.dsp.exec_cmd("hyprlock"))
 
+hl.bind(MAINMOD .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
 for _, direction in ipairs({ "left", "right", "down", "up" }) do
 	-- Move focus with mainMod + arrow keys
 	hl.bind(MAINMOD .. " + " .. direction, hl.dsp.focus({ direction = direction }))

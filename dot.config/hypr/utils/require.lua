@@ -26,8 +26,10 @@ local function require_directory(module)
 	local directory = utils.config_dir .. "/" .. module
 	local results = {}
 	for filename in io.popen("ls " .. directory):lines() do
-		local file = filename:replace(".lua", "")
-		results[file] = require(module .. "/" .. file:replace(".lua", ""))
+		if filename:endswith(".lua") then
+			local file = filename:replace(".lua", "")
+			results[file] = require(module .. "/" .. file:replace(".lua", ""))
+		end
 	end
 	return results
 end
@@ -47,7 +49,7 @@ return function(module, dir)
 		if required ~= nil or host ~= nil then
 			return required, host
 		end
-		notify("nothing returned from importing: " .. module, 5000)
+		debug("nothing returned from importing: " .. module, 5000)
 		return nil, nil
 	end
 end

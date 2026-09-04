@@ -34,6 +34,7 @@ local _hl = {
 	notification = {
 		create = hl.notification.create,
 	},
+	get_monitor_at_cursor = hl.get_monitor_at_cursor,
 }
 
 ---@alias WindowEvents "window.open" | "window.open_early" | "window.close" | "window.destroy" | "window.kill" | "window.urgent" | "window.title" | "window.class" | "window.pin" | "window.fullscreen" | "window.update_rules"
@@ -81,6 +82,10 @@ hl.notification.create = function(opts)
 		opts.text = __notify_error
 	end
 	return _hl.notification.create(opts)
+end
+
+hl.get_monitor_at_cursor = function()
+	return userdata_to_class(_hl.get_monitor_at_cursor())
 end
 
 return _HL

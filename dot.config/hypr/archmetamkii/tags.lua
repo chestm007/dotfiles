@@ -164,3 +164,5 @@ hl.bind(MAINMOD .. " + W", function()
 	hyprlauncherProc = io.popen('hyprlauncher -o "' .. workflowOptions .. '"')
 	cbTimer:set_enabled(true)
 end)
+
+return {}

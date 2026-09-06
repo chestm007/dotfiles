@@ -1,4 +1,6 @@
-return {
+-- GAMEMODE
+--
+local gamemode = {
 	enable = function()
 		hl.config({
 
@@ -15,3 +17,14 @@ return {
 		})
 	end,
 }
+
+hl.bind("SUPER + F1", function()
+	local game_mode = (hl.get_config("animations.enabled") == false)
+
+	if game_mode then
+		hl.exec_cmd("hyprctl reload")
+		return
+	end
+
+	gamemode.enable()
+end)

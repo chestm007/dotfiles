@@ -1,16 +1,26 @@
 return {
   {
     "nvim-neotest/neotest",
-    ft = "python",
     dependencies = {
       "nvim-neotest/nvim-nio",
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
+
+      -- python
       "nvim-neotest/neotest-python",
+
+      -- kotlin
+      -- "codymikol/neotest-kotlin",
+      -- "mgenuit/neotest-kotlin",
+      "chestm007/neotest-kotlin",
     },
     config = function()
-      require("neotest").setup({
+      local neotest = require("neotest").setup({
+        -- log_level = vim.log.levels.DEBUG,
+        icons = {
+          running_animated = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+        },
         adapters = {
           require("neotest-python")({
             is_test_file = function(file_path)
@@ -27,6 +37,18 @@ return {
                 or filename == "conftest.py"
             end,
           }),
+
+          require("neotest-kotlin").Adapter,
+          -- require("neotest-kotlin").setup({
+          --   root = function(dir)
+          --     error(dir)
+          --   end,
+          --   builder = "test",
+          --   is_test_file = function(file_path)
+          --     vim.notify("its all fucked", vim.log.levels.INFO)
+          --     return true
+          --   end,
+          -- }),
         },
       })
     end,

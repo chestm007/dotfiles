@@ -14,6 +14,10 @@ return {
       -- "codymikol/neotest-kotlin",
       -- "mgenuit/neotest-kotlin",
       "chestm007/neotest-kotlin",
+
+      -- javascript/typescript (vitest)
+      "marilari88/neotest-vitest",
+      "nvim-neotest/neotest-jest",
     },
     config = function()
       local neotest = require("neotest").setup({
@@ -49,6 +53,8 @@ return {
           --     return true
           --   end,
           -- }),
+          require("neotest-vitest"),
+          require("neotest-jest"),
         },
       })
     end,

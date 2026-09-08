@@ -79,5 +79,24 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 complete -o nospace -C /usr/bin/mcli mcli
 alias userctl="systemctl --user"
+function xa(){
+    if [[ $1 == "--help" || $1 == "-h" ]]; then
+        echo "shortcut to run xargs for each line of piped input"
+        echo " - you will need to put {} where you want the line subbed in"
+        echo "xargs -I {} -- [PASSED_ARGS]"
+    else
+        xargs -I {} -- $@
+    fi
+}
+
+function fe(){
+    if [[ $1 == "--help" || $1 == "-h" ]]; then
+        echo "shortcut to run a command per line piped in (use xa if you need"
+        echo "to put the args in the middle of the command"
+        echo "xargs -I {} -- [PASSED_ARGS] {}"
+    else
+        xargs -I {} -- $1 {}
+    fi
+}
 
 source `hostname`-rc.zsh

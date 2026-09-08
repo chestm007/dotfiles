@@ -42,13 +42,6 @@ local setup = {
       remap.silent("n", "<C-S-up>", ":wincmd +<CR>")
       remap.silent("n", "<C-S-down>", ":wincmd -<CR>")
 
-      -- moving between buffers
-      remap.silent("n", "<M-left>", ":bprev<CR>")
-      remap.silent("n", "<M-right>", ":bnext<CR>")
-
-      -- close buffer
-      remap.silent("n", "<M-q>", "<leader>bd", { remap = true })
-
       -- go to variable definition
       remap.silent("n", "<C-Enter>", "gd", { remap = true })
 
@@ -69,8 +62,9 @@ local setup = {
         vim.cmd("startinsert")
       end
 
-      remap.silent("n", "<A-t>", ":hor te<CR>")
-      remap.silent("n", "<A-S-t>", ":vert te<CR>")
+      -- uneeded due to lazyvim
+      -- remap.silent("n", "<A-t>", ":hor te<CR>")
+      -- remap.silent("n", "<A-S-t>", ":vert te<CR>")
 
       remap.silent("t", "<Esc>", leave)
       remap.silent("t", "<C-up>", leave .. ":wincmd k<CR>")

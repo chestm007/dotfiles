@@ -8,13 +8,14 @@ TERM = "xterm-256color"
 # RICE RICE BABY
 opacity = 1
 blur = true
+dynamic_title = true
 
 [font]
 normal = { family = "Source Code Pro", style = "Regular" }
 size = 12
 
 [colors]
-primary = { foreground = "#AA44BB" }  # Purple
+ primary = { foreground = "#BB55BB" }  # Purple
 transparent_background_colors = true  # I want transparent vim
 
 [terminal]

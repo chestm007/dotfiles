@@ -12,3 +12,5 @@ nvim/lua/plugins/base16.lua
 nvim/lazy-lock.json
 
 *.youdontneedanextention
+
+nvim/lua/plugins/noctua-mutagen.lua

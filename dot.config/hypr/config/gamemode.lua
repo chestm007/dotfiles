@@ -28,3 +28,5 @@ hl.bind("SUPER + F1", function()
 
 	gamemode.enable()
 end)
+
+return gamemode

@@ -1,5 +1,5 @@
 local Table = require("utils/table")
-local gamemode = require("gamemode")
+local gamemode = require("config/gamemode")
 
 local mons = Table(hl.get_monitors())
 --- disable gamemode when config is loaded if we're connected via VNC

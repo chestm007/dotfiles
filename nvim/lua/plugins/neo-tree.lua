@@ -19,11 +19,79 @@ local function recursive_expand_if_empty(state, node)
   end
 end
 
+local function toggle_neo_tree(dir)
+  if vim.bo.filetype == "neo-tree" then
+    require("neo-tree.command").execute({ toggle = true, dir = dir })
+  else
+    require("neo-tree.command").execute({ source = "filesystem", action = "focus" })
+  end
+end
+
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+      "s1n7ax/nvim-window-picker",
+    },
+    keys = {
+      {
+        "<leader>e",
+        function()
+          toggle_neo_tree(LazyVim.root())
+        end,
+        desc = "Explorer NeoTree (RootDir)",
+      },
+      {
+        "<leader>E",
+        function()
+          toggle_neo_tree(vim.uv.cwd())
+        end,
+        desc = "Explorer NeoTree (cwd)",
+      },
+    },
     opts = function(_, opts)
+      -- dont try and open files in neotest-summary window
       table.insert(opts.open_files_do_not_replace_types, "neotest-summary")
+
+      -- show only the line, no cursor when in the tree
+      local write = vim.api.nvim_ui_send or function(s)
+        return io.stdout:write(s)
+      end
+      opts.event_handlers = opts.event_handlers or {}
+      vim.list_extend(opts.event_handlers, {
+        {
+          event = "neo_tree_buffer_enter",
+          handler = function()
+            write("\027[?25l")
+          end,
+        },
+        {
+          event = "neo_tree_buffer_leave",
+          handler = function()
+            write("\027[?25h")
+          end,
+        },
+      })
+    end,
+  },
+  {
+    "s1n7ax/nvim-window-picker",
+    version = "2.*",
+    config = function()
+      require("window-picker").setup({
+        filter_rules = {
+          include_current_win = false,
+          autoselect_one = true,
+          -- filter using buffer options
+          bo = {
+            -- if the file type is one of following, the window will be ignored
+            filetype = { "neo-tree", "neo-tree-popup", "notify" },
+            -- if the buffer type is one of following, the window will be ignored
+            buftype = { "terminal", "quickfix", "neotest-summary" },
+          },
+        },
+      })
     end,
   },
   {
@@ -65,19 +133,19 @@ return {
         },
         keys = {
           -- increase width
-          ["<c-Right>"] = function(win)
+          ["<c-s-Right>"] = function(win)
             win:resize("width", 2)
           end,
           -- decrease width
-          ["<c-Left>"] = function(win)
+          ["<c-s-Left>"] = function(win)
             win:resize("width", -2)
           end,
           -- increase height
-          ["<c-Up>"] = function(win)
+          ["<c-s-Up>"] = function(win)
             win:resize("height", 2)
           end,
           -- decrease height
-          ["<c-Down>"] = function(win)
+          ["<c-s-Down>"] = function(win)
             win:resize("height", -2)
           end,
         },
@@ -139,12 +207,6 @@ return {
       end
       return opts
     end,
-    --opts = {
-    --  left = {},
-    --  right = {
-    --    { title = "Neotest Summary", ft = "neotest-summary" },
-    --  },
-    --},
   },
   {
     "wsdjeg/rooter.nvim",

@@ -3,7 +3,11 @@
         "library": [
             "lua",
             "$VIMRUNTIME",
-            "${3rd}/luv/library"
+            "${3rd}/luv/library",
+            "~/.local/share/nvim/lazy/neotest/lua/",
+            "~/.local/share/nvim/lazy/neo-tree.nvim/lua/",
+            "/usr/share/nvim/runtime/lua/",
+            "/usr/share/nvim/runtime/lua/vim/"
         ],
         "ignoreDir": [
             "test"

@@ -19,6 +19,30 @@ local function recursive_expand_if_empty(state, node)
   end
 end
 
+-- Edgy neotree auto width fix
+--  FIXME: broken for neotree only
+---@param win Edgy.Window
+local function toggle_auto_expand_width(win)
+  -- to load the filetypes
+  require("edgy")
+  local neotree_sources_common_commands = require("neo-tree.sources.common.commands")
+  local win_width = vim.api.nvim_win_get_width(0)
+  local state = require("neo-tree.sources.manager").get_state("filesystem")
+  if state.window.auto_expand_width then
+    neotree_sources_common_commands.toggle_auto_expand_width(state)
+    win.view.edgebar:equalize()
+    return
+  end
+  neotree_sources_common_commands.toggle_auto_expand_width(state)
+
+  while win_width < state.win_width + 1 do
+    vim.wait(100)
+    win:resize("width", 1)
+    win_width = win_width + 1
+  end
+end
+
+-- only close neotree if we toggle it while in it, otherwise warp to it
 local function toggle_neo_tree(dir)
   if vim.bo.filetype == "neo-tree" then
     require("neo-tree.command").execute({ toggle = true, dir = dir })
@@ -60,18 +84,40 @@ return {
       end
       opts.event_handlers = opts.event_handlers or {}
       vim.list_extend(opts.event_handlers, {
-        {
-          event = "neo_tree_buffer_enter",
-          handler = function()
-            write("\027[?25l")
-          end,
-        },
-        {
-          event = "neo_tree_buffer_leave",
-          handler = function()
-            write("\027[?25h")
-          end,
-        },
+        -- -- hide cursor in file tree
+        -- {
+        --   event = "neo_tree_buffer_enter",
+        --   handler = function()
+        --     write("\027[?25l")
+        --   end,
+        -- },
+        -- {
+        --   event = "neo_tree_buffer_leave",
+        --   handler = function()
+        --     write("\027[?25h")
+        --   end,
+        -- },
+        -- -- auto expand on enter file tree
+        -- {
+        --   event = "neo_tree_buffer_enter",
+        --   handler = function()
+        --     local state = require("neo-tree.sources.manager").get_state_for_window()
+        --     if state and state.current_position == "left" then
+        --       local _ = state.window.auto_expand_width
+        --         or require("neo-tree.sources.common.commands").toggle_auto_expand_width(state)
+        --     end
+        --   end,
+        -- },
+        -- {
+        --   event = "neo_tree_buffer_leave",
+        --   handler = function()
+        --     local state = require("neo-tree.sources.manager").get_state_for_window()
+        --     if state and state.current_position == "left" then
+        --       local _ = state.window.auto_expand_width
+        --         and require("neo-tree.sources.common.commands").toggle_auto_expand_width(state)
+        --     end
+        --   end,
+        -- },
       })
     end,
   },
@@ -96,10 +142,14 @@ return {
   },
   {
     "folke/edgy.nvim",
+    init = function()
+      vim.opt.laststatus = 3
+      vim.opt.splitkeep = "screen"
+    end,
     opts = function()
       local opts = {
         bottom = {
-          {
+          arguments = {
             ft = "toggleterm",
             size = { height = 0.4 },
             filter = function(buf, win)
@@ -126,7 +176,16 @@ return {
           { title = "Spectre", ft = "spectre_panel", size = { height = 0.4 } },
           { title = "Neotest Output", ft = "neotest-output-panel", size = { height = 15 } },
         },
-        left = {},
+        left = {
+          {
+            title = "NeoTree",
+            ft = "neo-tree",
+            filter = function(buf)
+              return vim.b[buf].neo_tree_source == "filesystem"
+            end,
+            size = { height = 0.5 },
+          },
+        },
         right = {
           { title = "Grug Far", ft = "grug-far", size = { width = 0.4 } },
           { title = "Neotest Summary", ft = "neotest-summary" },
@@ -134,11 +193,17 @@ return {
         keys = {
           -- increase width
           ["<c-s-Right>"] = function(win)
+            local state = require("neo-tree.sources.manager").get_state_for_window()
+            -- if state and state.current_position ~= "left" then
             win:resize("width", 2)
+            -- end
           end,
           -- decrease width
           ["<c-s-Left>"] = function(win)
+            local state = require("neo-tree.sources.manager").get_state_for_window()
+            -- if state and state.current_position ~= "left" then
             win:resize("width", -2)
+            -- end
           end,
           -- increase height
           ["<c-s-Up>"] = function(win)
@@ -148,14 +213,15 @@ return {
           ["<c-s-Down>"] = function(win)
             win:resize("height", -2)
           end,
+          ["e"] = toggle_auto_expand_width,
         },
       }
 
       if LazyVim.has("neo-tree.nvim") then
         local pos = {
           filesystem = "left",
-          buffers = "top",
-          git_status = "right",
+          -- buffers = "top",
+          -- git_status = "right",
           document_symbols = "bottom",
           diagnostics = "bottom",
         }

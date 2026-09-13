@@ -2,6 +2,9 @@
 -- currently broken:
 --  sessions dont keep all buffers in the windows,
 --  only the active ones reappear on session resume
+--  UPDATE: I've dug into this, and the problem is
+--   that session-manager doesnt actually save the
+--   window vars "group_bufs"
 
 return {
   { "akinsho/bufferline.nvim", enabled = false },
@@ -41,7 +44,7 @@ return {
             desc = "Move buffer right",
           },
         },
-        excluded_filetypes = { "terminal" },
+        excluded_filetypes = { "terminal", "filesystem" },
       })
     end,
   },

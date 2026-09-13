@@ -1,3 +1,5 @@
+ntk = require("neotest-kotlin").Adapter
+-- ntk = require("neotest-kotlin-maven")
 return {
   {
     "nvim-neotest/neotest",
@@ -7,25 +9,29 @@ return {
       "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
 
+      -- lua
+      "nvim-neotest/neotest-plenary",
+
       -- python
       "nvim-neotest/neotest-python",
 
       -- kotlin
       -- "codymikol/neotest-kotlin",
       -- "mgenuit/neotest-kotlin",
-      "chestm007/neotest-kotlin",
+      -- "chestm007/neotest-kotlin",
 
       -- javascript/typescript (vitest)
       "marilari88/neotest-vitest",
       "nvim-neotest/neotest-jest",
     },
     config = function()
-      local neotest = require("neotest").setup({
-        -- log_level = vim.log.levels.DEBUG,
+      require("neotest").setup({
+        log_level = vim.log.levels.DEBUG,
         icons = {
           running_animated = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
         },
         adapters = {
+          require("neotest-plenary"),
           require("neotest-python")({
             runner = "pytest",
           }),
@@ -45,7 +51,9 @@ return {
           --   end,
           -- }),
 
-          require("neotest-kotlin").Adapter,
+          ntk,
+          -- require("neotest-kotlin").Adapter, -- NOTE: working
+          -- TODO: old code, probs not needed
           -- require("neotest-kotlin").setup({
           --   root = function(dir)
           --     error(dir)

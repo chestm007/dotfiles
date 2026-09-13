@@ -37,8 +37,8 @@ local setup = {
       remap.silent("n", "<C-down>", ":wincmd j<CR>")
 
       -- resizing windows
-      remap.silent("n", "<C-S-left>", ":wincmd <<CR>")
-      remap.silent("n", "<C-S-right>", ":wincmd ><CR>")
+      remap.silent("n", "<C-S-left>", ":wincmd <<CR>:wincmd <<CR>")
+      remap.silent("n", "<C-S-right>", ":wincmd ><CR>:wincmd ><CR>")
       remap.silent("n", "<C-S-up>", ":wincmd +<CR>")
       remap.silent("n", "<C-S-down>", ":wincmd -<CR>")
 
@@ -66,7 +66,7 @@ local setup = {
       -- remap.silent("n", "<A-t>", ":hor te<CR>")
       -- remap.silent("n", "<A-S-t>", ":vert te<CR>")
 
-      remap.silent("t", "<Esc>", leave)
+      -- remap.silent("t", "<Esc>", leave)
       remap.silent("t", "<C-up>", leave .. ":wincmd k<CR>")
       remap.silent("t", "<C-down>", leave .. ":wincmd j<CR>")
       remap.silent("t", "<C-left>", leave .. ":wincmd h<CR>")

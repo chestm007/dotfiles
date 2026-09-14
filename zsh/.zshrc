@@ -78,6 +78,8 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 complete -o nospace -C /usr/bin/mcli mcli
+
+alias ssh="~/.ssh/config.d/select-env.sh"
 alias userctl="systemctl --user"
 function xa(){
     if [[ $1 == "--help" || $1 == "-h" ]]; then
@@ -99,4 +101,4 @@ function fe(){
     fi
 }
 
-source `hostname`-rc.zsh
+[[ -f "$HOME/$(hostname)-rc.zsh" ]] && source "$HOME/$(hostname)-rc.zsh"

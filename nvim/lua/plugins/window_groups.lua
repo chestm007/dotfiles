@@ -44,7 +44,7 @@ return {
             desc = "Move buffer right",
           },
         },
-        excluded_filetypes = { "terminal", "filesystem" },
+        exclude_filetypes = { "terminal", "filesystem" },
       })
     end,
   },

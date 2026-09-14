@@ -5,14 +5,47 @@ return {
       "chestm007/window-groups.nvim",
     },
     init = function()
-      -- create a session when nvim is started with no args
       local resession = require("resession")
+      local startup_session
+
+      local function directory_argument()
+        if vim.fn.argc(-1) ~= 1 then
+          return nil
+        end
+
+        local argument = vim.fn.argv(0)
+        if vim.fn.isdirectory(argument) ~= 1 then
+          return nil
+        end
+
+        local path = vim.fn.fnamemodify(argument, ":p")
+        if path ~= "/" then
+          path = path:gsub("/$", "")
+        end
+        return path
+      end
+
       vim.api.nvim_create_autocmd("VimEnter", {
         callback = function()
-          -- Only load the session if nvim was started with no args and without reading from stdin
-          if vim.fn.argc(-1) == 0 and not vim.g.using_stdin then
-            -- Save these to a different directory, so our manual sessions don't get polluted
-            resession.load(vim.fn.getcwd(), { dir = "dirsession", silence_errors = true })
+          if vim.g.using_stdin then
+            return
+          end
+
+          local directory = directory_argument()
+          if vim.fn.argc(-1) == 0 then
+            startup_session = vim.fn.getcwd()
+          elseif directory then
+            vim.api.nvim_set_current_dir(directory)
+            startup_session = directory
+          else
+            return
+          end
+
+          -- Save these to a different directory, so our manual sessions don't get polluted.
+          resession.load(startup_session, { dir = "dirsession", silence_errors = true })
+          if resession.get_current() ~= startup_session then
+            -- Do not create a session for a directory argument when none existed.
+            startup_session = nil
           end
         end,
         nested = true,
@@ -20,6 +53,13 @@ return {
       -- save the session when closing nvim
       vim.api.nvim_create_autocmd("VimLeavePre", {
         callback = function()
+          if vim.fn.argc(-1) == 1 then
+            if startup_session then
+              resession.save(startup_session, { dir = "dirsession", notify = false })
+            end
+            return
+          end
+
           resession.save(vim.fn.getcwd(), { dir = "dirsession", notify = false })
         end,
       })

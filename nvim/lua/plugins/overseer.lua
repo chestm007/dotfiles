@@ -1,6 +1,6 @@
 return {
   {
-    "stevearc/overseer.nvim",
+    "chestm007/overseer.nvim",
     lazy = false, -- plugin is self-lazy-loading
     cmd = {
       "OverseerOpen",

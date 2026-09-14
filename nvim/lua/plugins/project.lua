@@ -6,6 +6,7 @@ return {
       detection_methods = { "lsp", "pattern" },
       patterns = {
         -- ".git", TEST: commented out as i only want to detect actual projects.
+        ".editorconfig",
         ".pyproject.toml",
         "setup.py", -- python
         "pom.xml", -- kotlin/java

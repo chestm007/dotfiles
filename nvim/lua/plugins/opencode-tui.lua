@@ -24,4 +24,12 @@ return {
       -- 'nvim_mini/mini.nvim',
     },
   },
+  {
+    "folke/which-key.nvim",
+    opts = {
+      spec = {
+        { "<leader>o", group = "opencode" },
+      },
+    },
+  },
 }

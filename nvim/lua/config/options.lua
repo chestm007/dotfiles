@@ -6,3 +6,9 @@ local opt = vim.opt
 opt.relativenumber = false
 opt.tabstop = 4
 opt.shiftwidth = 4
+
+opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+opt.undofile = true
+opt.swapfile = false
+
+opt.scrolloff = 8

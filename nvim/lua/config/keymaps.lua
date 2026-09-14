@@ -77,6 +77,14 @@ local setup = {
       remap.silent("t", "<C-S-down>", function()
         execute_command("wincmd +")
       end)
+
+      -- jumping around code
+      remap.silent("n", "<C-d>", "<C-d>zz")
+      remap.silent("n", "<PgDn>", "<PgDn>zz")
+      remap.silent("n", "<PgUp>", "<PgUp>zz")
+      remap.silent("n", "<C-u>", "<C-u>zz")
+      remap.silent("n", "n", "<C-d>nzzzv")
+      remap.silent("n", "N", "Nzzzv")
     end,
   },
 }

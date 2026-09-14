@@ -93,6 +93,13 @@ return {
         desc = "Save session",
       },
       {
+        "<leader>qS",
+        function()
+          require("resession").save(vim.fn.getcwd(), { dir = "dirsession" })
+        end,
+        desc = "Save directory session",
+      },
+      {
         "<leader>ql",
         function()
           require("resession").load()

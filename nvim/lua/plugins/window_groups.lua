@@ -1,15 +1,7 @@
--- FIXME:
--- currently broken:
---  sessions dont keep all buffers in the windows,
---  only the active ones reappear on session resume
---  UPDATE: I've dug into this, and the problem is
---   that session-manager doesnt actually save the
---   window vars "group_bufs"
-
 return {
   { "akinsho/bufferline.nvim", enabled = false },
   {
-    "merrebach/window-groups.nvim",
+    "chestm007/window-groups.nvim",
     config = function()
       local wg = require("window_groups")
       wg.setup({
@@ -71,6 +63,18 @@ return {
           end,
         },
       })
+    end,
+  },
+  {
+    "stevearc/resession.nvim",
+    dependencies = {
+      "chestm007/window-groups.nvim",
+    },
+    opts = function(_, opts)
+      opts.extensions = opts.extensions or {}
+      opts.extensions.window_groups = {
+        enable_in_tab = true,
+      }
     end,
   },
 }

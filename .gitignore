@@ -15,3 +15,5 @@ nvim/lazy-lock.json
 
 nvim/lua/plugins/noctua-mutagen.lua
 /configs/home/.vim/undodir
+
+nvim/.omo/run-continuation/

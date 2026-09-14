@@ -7,23 +7,21 @@ return {
       })
     end,
   },
+  { "nvim-neotest/neotest-plenary" },
   {
     "nvim-neotest/neotest",
     ft = "lua",
-    dependencies = {
-      "nvim-neotest/neotest-plenary",
-    },
-    config = function()
-      require("neotest").setup({
-        projects = {
-          ["~/.config/nvim"] = require("neotest-plenary")({
+    opts = {
+      projects = {
+        ["~/.config/nvim"] = {
+          ["neotest-plenary"] = {
             min_init = "/home/max/.config/nvim/test/init.lua",
-          }),
+          },
         },
-        adapters = {
-          require("neotest-plenary"),
-        },
-      })
-    end,
+      },
+      adapters = {
+        ["neotest-plenary"] = {},
+      },
+    },
   },
 }

@@ -113,6 +113,24 @@ return {
       },
     },
   },
+  {
+    "chestm007/neotest-kotlin",
+    name = "neotest-kotlin",
+    dev = { "LazyVim" },
+    dir = "/home/max/git/neotest-kotlin/",
+  },
+  {
+    "nvim-neotest/neotest",
+    optional = true,
+    dependencies = {
+      "nvim-neotest/neotest-kotlin",
+    },
+    opts = {
+      adapters = {
+        ["neotest-kotlin"] = {},
+      },
+    },
+  },
   -- {
   --   "mfussenegger/nvim-dap",
   --   dependencies = {

@@ -4,6 +4,7 @@
     "lazyvim.plugins.extras.dap.nlua",
     "lazyvim.plugins.extras.editor.navic",
     "lazyvim.plugins.extras.editor.neo-tree",
+    "lazyvim.plugins.extras.editor.overseer",
     "lazyvim.plugins.extras.lang.ansible",
     "lazyvim.plugins.extras.lang.clangd",
     "lazyvim.plugins.extras.lang.cmake",
@@ -19,8 +20,6 @@
     "lazyvim.plugins.extras.ui.edgy",
     "lazyvim.plugins.extras.ui.treesitter-context",
     "lazyvim.plugins.extras.util.dot",
-    "lazyvim.plugins.extras.util.gh",
-    "lazyvim.plugins.extras.util.gitui",
     "lazyvim.plugins.extras.util.project"
   ],
   "install_version": 8,

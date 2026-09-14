@@ -3,6 +3,14 @@ return {
     "stevearc/oil.nvim",
   },
   {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, {
+        "kotlin",
+      })
+    end,
+  },
+  {
     "mason-org/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({

@@ -1,5 +1,12 @@
 return {
-  -- lazy.nvim setup
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, {
+        "lua",
+      })
+    end,
+  },
   {
     "nvim-neotest/neotest",
     ft = "lua",
